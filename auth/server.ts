@@ -1,6 +1,5 @@
-import express from "express";
 import cors from "cors";
-import { Request, Response } from "express";
+import express, { Request, Response } from "express";
 const app = express(); // Initializing express
 import dotenv from "dotenv";
 dotenv.config();
