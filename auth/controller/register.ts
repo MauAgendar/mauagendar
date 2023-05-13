@@ -13,6 +13,20 @@ export const register = async (req: Request, res: Response) => {
       error: "Invalid phone number",
     });
   }
+
+  const regex_email = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?$/i;
+  if(!regex_email.test(email)) {
+    return res.status(400).json({
+      error: "Invalid email",
+      });
+    }  
+
+    const regex_password = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/;
+    if(!regex_password.test(password)) {
+      return res.status(400).json({
+        error: "Invalid password",
+        });
+      }
   try {
     const data = await client.query(`SELECT * FROM users WHERE email = $1;`, [
       email,
