@@ -1,39 +1,30 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import "./App.css";
+import React from "react";
+import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
+import { Navbar } from "./components/Navbar";
+import "./index.css";
+import Login from "./components/Login";
+import Register from "./components/Register";
+import Footer from "./components/Footer";
+import Home from "./components/Home";
+import Calendario from "./components/Calendario";
+import Compromissos from "./components/Compromissos";
 
-function App() {
-    const [count, setCount] = useState(0);
-
+const App = () => {
     return (
-        <div className="App">
-            <div>
-                <a href="https://vitejs.dev" target="_blank">
-                    <img src={viteLogo} className="logo" alt="Vite logo" />
-                </a>
-                <a href="https://reactjs.org" target="_blank">
-                    <img
-                        src={reactLogo}
-                        className="logo react"
-                        alt="React logo"
-                    />
-                </a>
-            </div>
-            <h1>Vite + React</h1>
-            <div className="card">
-                <button onClick={() => setCount((count) => count + 1)}>
-                    count is {count}
-                </button>
-                <p>
-                    Edit <code>src/App.tsx</code> and save to test HMR
-                </p>
-            </div>
-            <p className="read-the-docs">
-                Click on the Vite and React logos to learn more
-            </p>
-        </div>
+        <>
+            <Router>
+                <Navbar />
+                <Routes>
+                    <Route path="/" Component={Home} />
+                    <Route path="/login" Component={Login} />
+                    <Route path="/register" Component={Register} />
+                    <Route path="/calendar" Component={Calendario} />
+                    <Route path="/appointments" Component={Compromissos} />
+                </Routes>
+                <Footer />
+            </Router>
+        </>
     );
-}
+};
 
 export default App;
