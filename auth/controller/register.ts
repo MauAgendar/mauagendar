@@ -6,6 +6,13 @@ import { Request, Response } from "express";
 // Register function
 export const register = async (req: Request, res: Response) => {
   const { name, email, phonenumber, password } = req.body;
+  // regex para validar numero de celular brasileiro
+  const regex_phone = /^\([1-9]{2}\)[9]{1}[0-9]{4}-[0-9]{4}$/;
+  if(!regex_phone.test(phonenumber)) {
+    return res.status(400).json({
+      error: "Invalid phone number",
+    });
+  }
   try {
     const data = await client.query(`SELECT * FROM users WHERE email = $1;`, [
       email,
@@ -13,7 +20,7 @@ export const register = async (req: Request, res: Response) => {
     const arr = data.rows;
     if (arr.length !== 0) {
       return res.status(400).json({
-        error: "Email already registered, no need to register again, master",
+        error: "Email ja registrado, nao precisa se registrar novamente",
       });
     } else {
       bcrypt.hash(password, 10, (err, hash) => {
@@ -44,7 +51,7 @@ export const register = async (req: Request, res: Response) => {
               });
             } else {
               flag = 1;
-              res.status(200).send({ message: "User added to the database" });
+              res.status(200).send({ message: "Usuario cadastrado com sucesso" });
             }
           }
         );
@@ -62,7 +69,7 @@ export const register = async (req: Request, res: Response) => {
   } catch (err) {
     console.log(err);
     res.status(500).json({
-      error: "Database error while registering the user", // Database connection error
+      error: "erro no banco de dados", // Database connection error
     });
   }
 };
