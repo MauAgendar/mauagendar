@@ -1,5 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
+
+const isAuthenticated = () => {
+    const token = sessionStorage.getItem("token");
+    return token !== null && token !== undefined;
+};
+
+const authenticated = isAuthenticated();
+
 export const Navbar: React.FC = () => {
     return (
         <nav className="bg-gray-900">
@@ -32,12 +40,21 @@ export const Navbar: React.FC = () => {
                             >
                                 Compromissos
                             </Link>
-                            <Link
-                                to="/login"
-                                className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                            >
-                                Login
-                            </Link>
+                            {authenticated ? (
+                                <Link
+                                    to="/profile"
+                                    className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                                >
+                                    Perfil
+                                </Link>
+                            ) : (
+                                <Link
+                                    to="/login"
+                                    className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                                >
+                                    Login
+                                </Link>
+                            )}
                         </div>
                     </div>
                 </div>

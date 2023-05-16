@@ -8,6 +8,7 @@ import Footer from "./components/Footer";
 import Home from "./components/Home";
 import Calendario from "./components/Calendario";
 import Compromissos from "./components/Compromissos";
+import Perfil from "./components/Perfil";
 
 const App = () => {
     return (
@@ -18,6 +19,7 @@ const App = () => {
                     <Route path="/" Component={Home} />
                     <Route path="/login" Component={Login} />
                     <Route path="/register" Component={Register} />
+                    <Route path="/profile" Component={Perfil} />
                     <Route path="/calendar" Component={Calendario} />
                     <Route path="/appointments" Component={Compromissos} />
                 </Routes>

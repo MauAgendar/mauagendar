@@ -5,31 +5,42 @@ export default function Login(): JSX.Element {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         const formData = {
             email,
             password,
         };
-        fetch("https://mauagendar-auth.onrender.com/user/login", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(formData),
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                console.log(data.status);
-                if (data.error == undefined) {
-                    window.alert("Logado com sucesso!");
-                    navigate("/");
+
+        try {
+            const response = await fetch(
+                "https://mauagendar-auth.onrender.com/user/login",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(formData),
                 }
-            })
-            .catch((error) => {
-                window.alert("Erro ao logar: " + error);
-            });
+            );
+
+            if (response.ok) {
+                const data = await response.json();
+                const token = data.token;
+
+                // Armazena JWT no sessionStorage
+                sessionStorage.setItem("token", token);
+                navigate("/");
+                window.location.reload();
+            } else {
+                const errorData = await response.json();
+                window.alert("Erro ao logar: " + errorData.error);
+            }
+        } catch (error) {
+            window.alert("Erro ao logar: " + error);
+        }
     };
 
     const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,6 +50,7 @@ export default function Login(): JSX.Element {
     const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setPassword(e.target.value);
     };
+
     return (
         <div className="relative flex flex-col justify-center min-h-screen overflow-hidden bg-gray-900">
             <div className="w-full p-6 m-auto bg-gray-800 rounded-md shadow-md lg:max-w-xl">
@@ -78,19 +90,21 @@ export default function Login(): JSX.Element {
                     </div>
                     <Link
                         to="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-                        className="text-xs text-purple-300 hover:underline"
+                        className="text-s text-purple-300 hover:underline"
                     >
                         Esqueceu a Senha?
                     </Link>
                     <div className="mt-6">
-                        <button className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-purple-700 rounded-md hover:bg-purple-600 focus:outline-none focus:bg-purple-600">
+                        <button
+                            type="submit"
+                            className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-purple-700 rounded-md hover:bg-purple-600 focus:outline-none focus:bg-purple-600"
+                        >
                             Login
                         </button>
                     </div>
                 </form>
 
-                <p className="mt-8 text-xs font-light text-center text-gray-300">
-                    {" "}
+                <p className="mt-8 text-s font-light text-center text-gray-300">
                     Não tem uma conta?{" "}
                     <Link
                         to="/register"

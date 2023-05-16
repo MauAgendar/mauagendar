@@ -10,7 +10,8 @@ export default function Login(): JSX.Element {
     const [name, setName] = useState("");
 
     const navigate = useNavigate();
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         if (password !== confirmPassword) {
@@ -25,24 +26,33 @@ export default function Login(): JSX.Element {
             name,
         };
 
-        fetch("https://mauagendar-auth.onrender.com/user/register", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(formData),
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                console.log(data.status);
-                if (data.error == undefined) {
-                    navigate("/");
-                    window.alert("Bem vindo ao MauAgendar!");
+        try {
+            const response = await fetch(
+                "https://mauagendar-auth.onrender.com/user/register",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(formData),
                 }
-            })
-            .catch((error) => {
-                window.alert("Erro ao logar: " + error);
-            });
+            );
+
+            if (response.ok) {
+                const data = await response.json();
+                const token = data.token;
+
+                // Armazena JWT no sessionStorage
+                sessionStorage.setItem("token", token);
+                navigate("/");
+                window.location.reload();
+            } else {
+                const errorData = await response.json();
+                window.alert("Erro ao registrar: " + errorData.error);
+            }
+        } catch (error) {
+            window.alert("Erro ao registrar: " + error);
+        }
     };
 
     const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -165,7 +175,7 @@ export default function Login(): JSX.Element {
                     </div>
                 </form>
 
-                <p className="mt-8 text-xs font-light text-center text-gray-300">
+                <p className="mt-8 text-s font-light text-center text-gray-300">
                     {" "}
                     Já tem uma conta?{" "}
                     <Link
