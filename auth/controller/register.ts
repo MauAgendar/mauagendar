@@ -65,7 +65,6 @@ export const register = async (req: Request, res: Response) => {
               });
             } else {
               flag = 1;
-              res.status(200).send({ message: "Usuario cadastrado com sucesso" });
             }
           }
         );
@@ -77,6 +76,10 @@ export const register = async (req: Request, res: Response) => {
             },
             process.env.SECRET_KEY as string
           );
+          res.status(200).json({
+            message: "Usuario registrado sucesso!",
+            token: token,
+          });
         }
       });
     }
