@@ -30,8 +30,8 @@ export default function Login(): JSX.Element {
                 const data = await response.json();
                 const token = data.token;
 
-                // Armazena JWT no sessionStorage
-                sessionStorage.setItem("token", token);
+                // Armazena JWT no localStorage
+                localStorage.setItem("token", token);
                 navigate("/");
                 window.location.reload();
             } else {
