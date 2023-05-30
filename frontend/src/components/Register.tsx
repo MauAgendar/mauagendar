@@ -28,7 +28,7 @@ export default function Login(): JSX.Element {
 
         try {
             const response = await fetch(
-                "https://mauagendar-auth.onrender.com/user/register",
+                "http://localhost:5050/user/register",
                 {
                     method: "POST",
                     headers: {
