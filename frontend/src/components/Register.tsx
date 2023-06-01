@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import './botoes/login.css'
 
 export default function Login(): JSX.Element {
     const [email, setEmail] = useState("");
@@ -169,7 +170,7 @@ export default function Login(): JSX.Element {
                         )}
                     </div>
                     <div className="mt-6">
-                        <button className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-purple-700 rounded-md hover:bg-purple-600 focus:outline-none focus:bg-purple-600">
+                        <button className="w-full px-4 py-1 tracking-wide text-white login">
                             Cadastre-se
                         </button>
                     </div>
