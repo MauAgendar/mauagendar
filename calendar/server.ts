@@ -4,6 +4,7 @@ app.use(express.json());
 
 // Configuração do client de conexões com o PostgreSQL
 import client from './configs/database';
+client.connect();
 
 // Rota para obter os compromissos de um usuário
 app.get('/user/:userId/appointments', async (req: Request, res: Response) => {
@@ -14,7 +15,7 @@ app.get('/user/:userId/appointments', async (req: Request, res: Response) => {
     const query = 'SELECT id, title, date FROM appointments WHERE user_id = $1';
     const values = [userId];
     const result = await client.query(query, values);
-
+    
     const appointments = result.rows;
 
     res.json(appointments);
