@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import './botoes/login.css'
+import './botoes/glow.css'
 
 export default function Login(): JSX.Element {
     const [email, setEmail] = useState("");
@@ -170,9 +170,9 @@ export default function Login(): JSX.Element {
                         )}
                     </div>
                     <div className="mt-6">
-                        <button className="w-full px-4 py-1 tracking-wide text-white login">
+                        <glow className="block w-full px-4 py-2 mx-auto text-center  text-purple-300">
                             Cadastre-se
-                        </button>
+                        </glow>
                     </div>
                 </form>
 

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import './botoes/glow.css'
 
 export default function Login(): JSX.Element {
     const [email, setEmail] = useState("");
@@ -92,12 +93,12 @@ export default function Login(): JSX.Element {
                         Esqueceu a Senha?
                     </Link>
                     <div className="mt-6">
-                        <button
+                        <glow
                             type="submit"
-                            className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-purple-700 rounded-md hover:bg-purple-600 focus:outline-none focus:bg-purple-600"
+                            className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-purple-700 rounded-md hover:bg-purple-600 focus:outline-none focus:bg-purple-600 text-center"
                         >
                             Login
-                        </button>
+                        </glow>
                     </div>
                 </form>
 

@@ -1,9 +1,10 @@
 import React from "react";
+import './calendar/App.css';
+import { App } from './calendar/App';
 
 export default function Calendario() {
     return (
-        <div className="flex flex-col items-center justify-center h-screen bg-gray-900">
-            <h1 className="text-5xl font-bold">Calendario</h1>
-        </div>
+        
+        <App />
     );
 }

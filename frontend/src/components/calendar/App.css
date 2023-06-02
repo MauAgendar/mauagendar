@@ -1,0 +1,69 @@
+
+.background {
+background-image: linear-gradient(#FDB298,#B176EF);
+width: 100%;
+height: 500px;
+}
+
+.calendar-container{
+    width: 55%;
+    margin: auto;
+    position: relative;
+    top: -100px;
+    padding-top: 200px;
+}
+
+.weekdays-container{
+    display: flex;
+    justify-content: space-around;
+    margin: auto;
+    background: rgb(43, 43, 99);
+}
+
+.weekdays-container .weekdays{
+    color: green;
+}
+
+.calendar{
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.calendar .week {
+    display: inline-flex;
+    align-items: flex-start;
+    justify-content: space-around;
+    width: 100%;
+    height: 100%;
+    background-color: #8b90f0;
+}
+
+button{
+    background: gray; ;
+    border: none;
+    width: 100%;
+}
+
+date-picker-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background:#8b90f0;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+.date-picker-container span{
+    font-size: 20px;
+}
+
+.date-picker-container svg{
+    border-radius: 100px;
+    background: #E8E;
+    padding: 10px 10px;
+    margin: 10px;
+}
