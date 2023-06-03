@@ -3,7 +3,9 @@ import { Link } from "react-router-dom";
 import { isAuthenticated } from "../utils/Auth";
 
 export const Navbar: React.FC = () => {
-    const email = isAuthenticated();
+    const token = localStorage.getItem("token");
+    const user = isAuthenticated(token);
+    const email = user.email;
     return (
         <nav className="bg-gray-900">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -23,19 +25,28 @@ export const Navbar: React.FC = () => {
                             >
                                 Home
                             </Link>
-                            <Link
-                                to="/calendar"
-                                className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                            >
-                                Calendario
-                            </Link>
-                            <Link
-                                to="/appointments"
-                                className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                            >
-                                Compromissos
-                            </Link>
-                            {email ? (
+                            {email !== "" ? (
+                                <Link
+                                    to="/calendar"
+                                    className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                                >
+                                    Calendario
+                                </Link>
+                            ) : (
+                                <></>
+                            )}
+
+                            {email !== "" ? (
+                                <Link
+                                    to="/appointments"
+                                    className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                                >
+                                    Compromissos
+                                </Link>
+                            ) : (
+                                <></>
+                            )}
+                            {email !== "" ? (
                                 <Link
                                     to="/profile"
                                     className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"

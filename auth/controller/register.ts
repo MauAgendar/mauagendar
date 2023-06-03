@@ -67,14 +67,16 @@ export const register = async (req: Request, res: Response) => {
                             });
                         } else {
                             flag = 1;
+                            const id = result.rows[0].id;
+
                             const token = jwt.sign(
                                 // Registering jwt
                                 {
                                     email: user.email,
+                                    user_id: id,
                                 },
                                 process.env.SECRET_KEY as string
                             );
-                            const id = result.rows[0].id;
                             publishAuthenticationEvent(user.email, id);
                             res.status(200).json({
                                 message: "User registered successfully!",
