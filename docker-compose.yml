@@ -16,6 +16,7 @@ services:
       - 5050:5050
     depends_on:
       - rabbitmq
+      - postgres
     networks:
       - app-network
 
@@ -27,6 +28,7 @@ services:
       - 5000:5000
     depends_on:
       - rabbitmq
+      - postgres
     networks:
       - app-network
 
