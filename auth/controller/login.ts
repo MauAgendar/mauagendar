@@ -2,7 +2,7 @@ import bcrypt from "bcrypt";
 import client from "../configs/database";
 import jwt from "jsonwebtoken";
 import { Request, Response } from "express";
-
+import { publishAuthenticationEvent } from "./publishAuthEvent"
 // Login function
 export const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
@@ -11,6 +11,7 @@ export const login = async (req: Request, res: Response) => {
       email,
     ]); // Verifying if the user exists in the database
     const user = data.rows;
+    console.log(user[0].id)
     if (user.length === 0) {
       res.status(400).json({
         error: "User not registered, please sign up first",
@@ -30,6 +31,7 @@ export const login = async (req: Request, res: Response) => {
             },
             process.env.SECRET_KEY as string
           );
+          publishAuthenticationEvent(email, user[0].id);
           res.status(200).json({
             message: "User logged in!",
             token: token,

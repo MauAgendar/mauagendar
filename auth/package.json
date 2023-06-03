@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "amqplib": "^0.10.3",
     "axios": "^1.4.0",
     "bcrypt": "^5.1.0",
     "cors": "^2.8.5",
@@ -13,6 +14,7 @@
     "dev": "nodemon server.ts"
   },
   "devDependencies": {
+    "@types/amqplib": "^0.10.1",
     "@types/bcrypt": "^5.0.0",
     "@types/cors": "^2.8.13",
     "@types/express": "^4.17.17",

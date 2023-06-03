@@ -1,0 +1,64 @@
+version: '3'
+services:
+  rabbitmq:
+    image: rabbitmq:3.9-management-alpine
+    ports:
+      - 5672:5672
+      - 15672:15672
+    networks:
+      - app-network
+
+  auth:
+    build:
+      context: ./auth
+      dockerfile: Dockerfile
+    ports:
+      - 5050:5050
+    depends_on:
+      - rabbitmq
+    networks:
+      - app-network
+
+  calendar:
+    build:
+      context: ./calendar
+      dockerfile: Dockerfile
+    ports:
+      - 5000:5000
+    depends_on:
+      - rabbitmq
+    networks:
+      - app-network
+
+  postgres:
+    image: postgres:latest
+    ports:
+      - 5433:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: mauagendar
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - 5173:5173
+    networks:
+      - app-network
+
+networks:
+  app-network:
+
+volumes:
+  pgdata:

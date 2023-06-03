@@ -1,4 +1,0 @@
-[submodule "authentication"]
-	path = authentication
-	url = https://github.com/MauAgendar/authentication.git
-	branch = main
