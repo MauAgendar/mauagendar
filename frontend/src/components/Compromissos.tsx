@@ -49,7 +49,9 @@ const Compromissos: React.FC<CompromissosProps> = ({ userId }) => {
 
         try {
             const response = await fetch(
-                `http://localhost:${import.meta.env.VITE_CALENDAR_PORT}/user/${userId}/appointments`
+                `http://localhost:${
+                    import.meta.env.VITE_CALENDAR_PORT
+                }/user/${userId}/appointments`
             );
             if (response.ok) {
                 const data = await response.json();
@@ -71,7 +73,9 @@ const Compromissos: React.FC<CompromissosProps> = ({ userId }) => {
 
         try {
             const response = await fetch(
-                `http://localhost:${import.meta.env.VITE_CALENDAR_PORT}/user/${userId}/appointments`,
+                `http://localhost:${
+                    import.meta.env.VITE_CALENDAR_PORT
+                }/user/${userId}/appointments`,
                 {
                     method: "POST",
                     headers: {
@@ -102,7 +106,9 @@ const Compromissos: React.FC<CompromissosProps> = ({ userId }) => {
 
         try {
             const response = await fetch(
-                `http://localhost:${import.meta.env.VITE_CALENDAR_PORT}/user/${userId}/appointments/${id}`,
+                `http://localhost:${
+                    import.meta.env.VITE_CALENDAR_PORT
+                }/user/${userId}/appointments/${id}`,
                 {
                     method: "PUT",
                     headers: {
@@ -112,8 +118,9 @@ const Compromissos: React.FC<CompromissosProps> = ({ userId }) => {
                 }
             );
             const data = await response.json();
-            const updatedAppointments = appointments.map((appointment) =>
-                appointment.id === id ? data : appointment
+            const updatedAppointments = appointments.map(
+                (appointment: Appointment) =>
+                    appointment.id === id ? data : appointment
             );
             setAppointments(updatedAppointments);
             setNewAppointment({
@@ -136,14 +143,18 @@ const Compromissos: React.FC<CompromissosProps> = ({ userId }) => {
 
         try {
             await fetch(
-                `http://localhost:${import.meta.env.VITE_CALENDAR_PORT}/user/${userId}/appointments/${id}`,
+                `http://localhost:${
+                    import.meta.env.VITE_CALENDAR_PORT
+                }/user/${userId}/appointments/${id}`,
                 {
                     method: "DELETE",
                 }
             );
 
             const response = await fetch(
-                `http://localhost:${import.meta.env.VITE_CALENDAR_PORT}/user/${userId}/appointments`
+                `http://localhost:${
+                    import.meta.env.VITE_CALENDAR_PORT
+                }/user/${userId}/appointments`
             );
             if (response.ok) {
                 const data = await response.json();
@@ -263,7 +274,6 @@ const Compromissos: React.FC<CompromissosProps> = ({ userId }) => {
                                 end_time: e.target.value,
                             })
                         }
-                        required
                         className="block w-full px-4 py-2 mt-2 text-purple-300 bg-gray-700 border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
                     />
                 </label>
