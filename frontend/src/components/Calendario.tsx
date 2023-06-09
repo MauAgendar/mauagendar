@@ -27,7 +27,9 @@ const Calendar: React.FC<CalendarProps> = ({ userId }) => {
     const fetchAppointments = async (userId: number) => {
         try {
             const response = await fetch(
-                `http://localhost:5000/user/${userId}/appointments`
+                `http://localhost:${
+                    import.meta.env.VITE_CALENDAR_PORT
+                }/user/${userId}/appointments`
             );
             if (response.ok) {
                 const data = await response.json();

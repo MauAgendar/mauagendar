@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-
-export default function Login(): JSX.Element {
+export default function Register(): JSX.Element {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -28,7 +27,7 @@ export default function Login(): JSX.Element {
 
         try {
             const response = await fetch(
-                "http://localhost:5050/user/register",
+                `http://localhost:${import.meta.env.VITE_AUTH_PORT}/user/register`,
                 {
                     method: "POST",
                     headers: {

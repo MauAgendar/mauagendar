@@ -25,7 +25,15 @@ COPY --from=build /app/dist ./dist
 RUN npm install -g serve
 
 # Expose the application port
-EXPOSE 5173
+ARG CLIENT_PORT
+ENV CLIENT_PORT $CLIENT_PORT
+EXPOSE $CLIENT_PORT
+
+ARG VITE_AUTH_PORT
+ENV VITE_AUTH_PORT $VITE_AUTH_PORT
+
+ARG VITE_CALENDAR_PORT
+ENV VITE_CALENDAR_PORT $VITE_CALENDAR_PORT
 
 # Set the command to serve the application
-CMD ["serve", "-s", "dist", "-l", "5173"]
+CMD ["serve", "-s", "dist", "-l", "tcp://0.0.0.0:$CLIENT_PORT"]

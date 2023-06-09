@@ -15,13 +15,16 @@ export default function Login(): JSX.Element {
         };
 
         try {
-            const response = await fetch("http://localhost:5050/user/login", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(formData),
-            });
+            const response = await fetch(
+                `http://localhost:${import.meta.env.VITE_AUTH_PORT}/user/login`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(formData),
+                }
+            );
 
             if (response.ok) {
                 const data = await response.json();

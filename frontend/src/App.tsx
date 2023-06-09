@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Navbar } from "./components/Navbar";
 import "./index.css";
 import Login from "./components/Login";
@@ -10,7 +10,6 @@ import Calendario from "./components/Calendario";
 import Appointments from "./components/Compromissos";
 import Perfil from "./components/Perfil";
 import { isAuthenticated } from "./utils/Auth";
-
 interface User {
     email: string | null | undefined;
     user_id: number;
