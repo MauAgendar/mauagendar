@@ -26,8 +26,6 @@ class Appointment {
             const result = await client.query(query, values);
 
             const appointments = result.rows;
-            let appointmentId = appointments[0].id;
-            console.log(appointments[0].id);
             await publishEvent("appointment_events", {
                 appointments,
                 action: "read",

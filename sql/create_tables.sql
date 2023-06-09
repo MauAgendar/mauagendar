@@ -19,6 +19,7 @@ CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255),
     password VARCHAR(255),
-    phonenumber VARCHAR(13),
+    email VARCHAR(255),
+    phonenumber VARCHAR(15),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )
