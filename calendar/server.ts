@@ -1,6 +1,7 @@
 import express from "express";
 import router from "./routes/appointments";
-
+import dotenv from "dotenv";
+dotenv.config();
 const app = express();
 
 // Enable CORS
@@ -15,7 +16,7 @@ app.use((req, res, next) => {
 });
 
 app.use(express.json());
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.CALENDAR_PORT;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}.`);
 });

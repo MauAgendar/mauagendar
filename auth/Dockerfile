@@ -12,7 +12,10 @@ RUN npm install
 COPY . .
 
 # Expor a porta do aplicativo Node.js
-EXPOSE 5050
+ARG AUTH_PORT
+ENV AUTH_PORT $AUTH_PORT
+EXPOSE $AUTH_PORT
+
 
 # Comando para iniciar o aplicativo
 CMD [ "npm", "start" ]

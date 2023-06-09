@@ -1,18 +1,22 @@
 FROM node:18-alpine as base
 
-# Diretório de trabalho dentro do contêiner
+# Directory within the container
 WORKDIR /app
-# Copiar os arquivos do aplicativo
+
+# Copy application files
 COPY package.json package-lock.json ./
 
-# Instalar as dependências
+# Install dependencies
 RUN npm install
 
-# Copiar o código do aplicativo
+# Copy application code
 COPY . .
 
-# Expor a porta do aplicativo Node.js
-EXPOSE 5000
+# Expose the Node.js application port
+ARG CALENDAR_PORT
+ENV CALENDAR_PORT $CALENDAR_PORT
+EXPOSE $CALENDAR_PORT
 
-# Comando para iniciar o aplicativo
-CMD [ "npm", "start" ]
+# Set the command to start the application
+CMD ["npm", "start"]
+

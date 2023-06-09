@@ -13,7 +13,15 @@ services:
       context: ./auth
       dockerfile: Dockerfile
     ports:
-      - 5050:5050
+      - ${AUTH_PORT}:${AUTH_PORT}
+    environment:
+      - AUTH_PORT=${AUTH_PORT}
+      - SECRET_KEY=${SECRET_KEY}
+      - PG_HOST=${PG_HOST}
+      - PG_USER=${PG_USER}
+      - PG_PASSWORD=${PG_PASSWORD}
+      - PG_DATABASE=${PG_DATABASE}
+      - PG_PORT=${PG_PORT}
     depends_on:
       - rabbitmq
       - postgres
@@ -25,40 +33,60 @@ services:
       context: ./calendar
       dockerfile: Dockerfile
     ports:
-      - 5000:5000
+      - ${CALENDAR_PORT}:${CALENDAR_PORT}
+    environment:
+      - CALENDAR_PORT=${CALENDAR_PORT}
+      - PG_HOST=${PG_HOST}
+      - PG_USER=${PG_USER}
+      - PG_PASSWORD=${PG_PASSWORD}
+      - PG_DATABASE=${PG_DATABASE}
+      - PG_PORT=${PG_PORT}
     depends_on:
       - rabbitmq
       - postgres
     networks:
       - app-network
+  
 
   postgres:
     image: postgres:latest
     ports:
-      - 5432:5432
+      - ${PG_PORT}:${PG_PORT}
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: mauagendar
+      - POSTGRES_HOST=${PG_HOST}
+      - POSTGRES_USER=${PG_USER}
+      - POSTGRES_PASSWORD=${PG_PASSWORD}
+      - POSTGRES_DB=${PG_DATABASE}
+    logging:
+          options:
+            max-size: 10m
+            max-file: "3"
+        
     volumes:
       - pgdata:/var/lib/postgresql/data
+      - ./sql/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
+      
     networks:
       - app-network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      test: ["CMD-SHELL", "pg_isready -U ${PG_USER}"]
       interval: 10s
       timeout: 5s
       retries: 5
-
+    restart: unless-stopped
+    
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
     ports:
-      - 5173:5173
+      - ${CLIENT_PORT}:${CLIENT_PORT}
+    
+    depends_on:
+      - auth
+      - calendar
     networks:
       - app-network
-
 networks:
   app-network:
 
