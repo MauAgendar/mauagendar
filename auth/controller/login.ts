@@ -3,6 +3,7 @@ import client from "../configs/database";
 import jwt from "jsonwebtoken";
 import { Request, Response } from "express";
 import { publishAuthenticationEvent } from "./publishAuthEvent";
+
 // Login function
 export const login = async (req: Request, res: Response) => {
     const { email, password } = req.body;
@@ -33,7 +34,7 @@ export const login = async (req: Request, res: Response) => {
                         },
                         process.env.SECRET_KEY as string
                     );
-                    publishAuthenticationEvent(email, user[0].id);
+                    publishAuthenticationEvent(token);
                     res.status(200).json({
                         message: "User logged in!",
                         token: token,

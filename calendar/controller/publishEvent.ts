@@ -5,7 +5,7 @@ export const publishEvent = async (queue: string, event: any) => {
     try {
         const connection = await amqp.connect(amqpUrl); // Configurar a URL correta do RabbitMQ
         const channel = await connection.createChannel();
-
+        
         await channel.assertQueue(queue);
         const message = JSON.stringify(event);
 

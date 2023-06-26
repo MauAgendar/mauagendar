@@ -27,6 +27,7 @@ services:
       - postgres
     networks:
       - app-network
+    restart: unless-stopped
 
   calendar:
     build:
@@ -36,6 +37,7 @@ services:
       - ${CALENDAR_PORT}:${CALENDAR_PORT}
     environment:
       - CALENDAR_PORT=${CALENDAR_PORT}
+      - SECRET_KEY=${SECRET_KEY}
       - PG_HOST=${PG_HOST}
       - PG_USER=${PG_USER}
       - PG_PASSWORD=${PG_PASSWORD}
@@ -46,7 +48,8 @@ services:
       - postgres
     networks:
       - app-network
-  
+    restart: unless-stopped
+
 
   postgres:
     image: postgres:latest
@@ -87,6 +90,8 @@ services:
       - calendar
     networks:
       - app-network
+    restart: unless-stopped
+    
 networks:
   app-network:
 

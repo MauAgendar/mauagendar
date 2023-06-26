@@ -77,7 +77,9 @@ export const register = async (req: Request, res: Response) => {
                                 },
                                 process.env.SECRET_KEY as string
                             );
-                            publishAuthenticationEvent(user.email, id);
+
+                            publishAuthenticationEvent(token); // Send the token to the authentication queue
+
                             res.status(200).json({
                                 message: "User registered successfully!",
                                 token: token,

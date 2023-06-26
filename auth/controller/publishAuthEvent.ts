@@ -1,17 +1,14 @@
 import amqp from "amqplib";
 const amqpUrl = process.env.AMQP_URL || "amqp://guest:guest@rabbitmq:5672/";
 
-export const publishAuthenticationEvent = async (
-    email: String,
-    user_id: Number
-) => {
+export const publishAuthenticationEvent = async (token: string) => {
     try {
-        const connection = await amqp.connect(amqpUrl); // Configurar a URL correta do RabbitMQ
+        const connection = await amqp.connect(amqpUrl);
         const channel = await connection.createChannel();
-        const queue = "authentication_queue"; // Nome da fila de eventos de autenticação
+        const queue = "auth_queue";
 
         await channel.assertQueue(queue);
-        const message = JSON.stringify({ email, user_id }); // Dados relevantes do evento
+        const message = JSON.stringify({ token }); // Updated payload to include the token
         console.log(message);
 
         channel.sendToQueue(queue, Buffer.from(message));
