@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import client from "../configs/database";
-import { publishEvent } from "./publishEvent";
-import { consumeEvent } from "./consumeEvent";
+import { publishEvent } from "./publishConsumeEvent";
+import { consumeEvent } from "./publishConsumeEvent";
 import jwt from "jsonwebtoken";
 
 client.connect();
@@ -9,7 +9,8 @@ client.connect();
 class Appointment {
     userId: number;
     constructor() {
-        // Start consuming events from the authentication queue
+        // Start consuming events from the authentication
+        this.userId = 0;
         this.consumeAuthenticationEvent();
     }
 
@@ -20,17 +21,19 @@ class Appointment {
                 const { token } = event;
                 console.log("Consuming authentication event:", event);
                 console.log(token);
-                const decodedToken = jwt.verify(
+                const decodedToken: any = jwt.verify(
                     token,
                     process.env.SECRET_KEY as string,
-                    (err, decoded) => {
+                    (err: any, decoded: any) => {
                         if (err) {
                             console.error("Error decoding token:", err);
                             return null;
                         }
+                        console.log(decoded);
                         return decoded;
                     }
                 );
+                console.log(decodedToken);
                 this.userId = decodedToken["user_id"];
             });
             console.log("Consuming authentication events from auth_queue");
@@ -39,7 +42,7 @@ class Appointment {
         }
     };
 
-    authenticate = (req, res, next: Function) => {
+    authenticate = (req: Request, res: Response, next: Function) => {
         if (this.userId) {
             console.log(this.userId);
             next();

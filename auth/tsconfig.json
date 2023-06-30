@@ -4,7 +4,10 @@
     "module": "commonjs",
     "outDir": "dist",
     "sourceMap": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "noImplicitAny": false,
+    "removeComments": true,
+    "preserveConstEnums": true,
   },
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules"],
@@ -13,3 +16,4 @@
     "./node_modules/@types"
   ]
 }
+

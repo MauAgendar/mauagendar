@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import FullCalendar from "@fullcalendar/react";
+import "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import { EventInput } from "@fullcalendar/core";
 import interactionPlugin from "@fullcalendar/interaction";
+import FullCalendar from "@fullcalendar/react";
 
 interface Appointment {
     id: number;

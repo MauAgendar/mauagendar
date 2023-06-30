@@ -7,10 +7,16 @@ services:
       - 15672:15672
     networks:
       - app-network
+    healthcheck:
+      test: ["CMD", "rabbitmqctl", "status"]
+      interval: 5s
+      timeout: 5s
+      retries: 3
+    restart: unless-stopped
 
   auth:
     build:
-      context: ./auth
+      context: ./auth/src
       dockerfile: Dockerfile
     ports:
       - ${AUTH_PORT}:${AUTH_PORT}
@@ -27,11 +33,11 @@ services:
       - postgres
     networks:
       - app-network
-    restart: unless-stopped
+ 
 
   calendar:
     build:
-      context: ./calendar
+      context: ./calendar/src
       dockerfile: Dockerfile
     ports:
       - ${CALENDAR_PORT}:${CALENDAR_PORT}
@@ -46,6 +52,7 @@ services:
     depends_on:
       - rabbitmq
       - postgres
+      - auth
     networks:
       - app-network
     restart: unless-stopped
@@ -91,7 +98,7 @@ services:
     networks:
       - app-network
     restart: unless-stopped
-    
+
 networks:
   app-network:
 
