@@ -75,9 +75,9 @@ spec:
             - name: AUTH_PORT
               value: "5050"
             - name: SECRET_KEY
-              value: BATMAN
+              value: "BATMAN"
             - name: PG_HOST
-              value: postgres
+              value: "postgres"
             - name: PG_USER
               value: "postgres"
             - name: PG_PASSWORD
@@ -86,7 +86,6 @@ spec:
               value: "mauagendar"
             - name: PG_PORT
               value: "5432"
-
 
 ---
 
@@ -127,7 +126,7 @@ spec:
             - name: CALENDAR_PORT
               value: "5000"
             - name: PG_HOST
-              value: postgres
+              value: "postgres"
             - name: PG_USER
               value: "postgres"
             - name: PG_PASSWORD
@@ -174,7 +173,7 @@ spec:
             - containerPort: 5432
           env:
             - name: POSTGRES_HOST
-              value: postgres
+              value: "postgres"
             - name: POSTGRES_USER
               value: "postgres"
             - name: POSTGRES_PASSWORD
