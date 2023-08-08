@@ -30,7 +30,7 @@ services:
       - PG_PORT=${PG_PORT}
     depends_on:
       - rabbitmq
-      - postgres
+      - db
     networks:
       - app-network
  
@@ -51,14 +51,14 @@ services:
       - PG_PORT=${PG_PORT}
     depends_on:
       - rabbitmq
-      - postgres
+      - db
       - auth
     networks:
       - app-network
     restart: unless-stopped
 
 
-  postgres:
+  db:
     image: postgres:latest
     ports:
       - ${PG_PORT}:${PG_PORT}
