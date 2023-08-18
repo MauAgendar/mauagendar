@@ -15,7 +15,7 @@ COPY . .
 RUN npm run build
 
 # Stage 2: Serve the built application
-FROM node:18-alpine as production
+FROM node as production
 WORKDIR /app
 
 # Copy the built files from the previous stage
