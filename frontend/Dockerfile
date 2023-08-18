@@ -1,5 +1,5 @@
 # Stage 1: Build the application
-FROM node:18-alpine as build
+FROM node as build
 WORKDIR /app
 
 # Copy package.json and package-lock.json to the working directory
