@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { isAuthenticated } from "../utils/Auth";
 
 export const Navbar: React.FC = () => {
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     const user = isAuthenticated(token);
     const email = user.email;
     return (
