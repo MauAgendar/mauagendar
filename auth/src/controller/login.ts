@@ -43,7 +43,7 @@ export const login = async (req: Request, res: Response) => {
                     // Handling errors
                     if (!result)
                         res.status(400).json({
-                            error: "Incorrect password!",
+                            error: "Invalid Credetials~",
                         });
                 }
             });
