@@ -6,8 +6,8 @@ const appointment = new Appointment();
 
 router.get(
     "/user/:userId/appointments",
-    appointment.getAppointment,
-    appointment.authenticate
+    appointment.authenticate,
+    appointment.getAppointment
 );
 router.post(
     "/user/:userId/appointments",
