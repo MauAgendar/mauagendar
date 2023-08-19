@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import client from "../configs/database";
 import { publishEvent } from "./publishConsumeEvent";
 import { consumeEvent } from "./publishConsumeEvent";
@@ -42,18 +42,36 @@ class Appointment {
         }
     };
 
-    authenticate = (req: Request, res: Response, next: Function) => {
-        if (this.userId) {
-            console.log(this.userId);
-            next();
+    authenticate = (req: Request, res: Response, next: NextFunction) => {
+        const authHeader = req.headers["authorization"];
+        if (authHeader) {
+            const token = authHeader.split(" ")[1]; // Assuming format is "Bearer token"
+            jwt.verify(
+                token,
+                process.env.SECRET_KEY as string,
+                (err: any, decoded: any) => {
+                    if (err) {
+                        console.error("Error decoding token:", err);
+                        res.status(401).json({
+                            message: "Authentication failed.",
+                        });
+                    } else {
+                        console.log(decoded);
+                        this.userId = decoded["user_id"];
+                        next();
+                    }
+                }
+            );
         } else {
-            res.status(401).json({ message: "Authentication failed." });
+            res.status(401).json({ message: "Authentication required." });
         }
     };
 
     getAppointment = async (req: Request, res: Response) => {
         const { userId } = req.params;
-
+        if (userId !== this.userId.toString()) {
+            return res.status(401).json({ message: "Authentication failed." });
+        }
         try {
             // Check authentication
             this.authenticate(req, res, async () => {
@@ -78,7 +96,9 @@ class Appointment {
     makeAppointments = async (req: Request, res: Response) => {
         const { userId } = req.params;
         const { title, description, start_time, end_time } = req.body;
-
+        if (userId !== this.userId.toString()) {
+            return res.status(401).json({ message: "Authentication failed." });
+        }
         try {
             // Check authentication
             this.authenticate(req, res, async () => {
@@ -116,7 +136,9 @@ class Appointment {
     updateUserAppointment = async (req: Request, res: Response) => {
         const { userId, appointmentId } = req.params;
         const { title, description, start_time, end_time } = req.body;
-
+        if (userId !== this.userId.toString()) {
+            return res.status(401).json({ message: "Authentication failed." });
+        }
         try {
             // Check authentication
             this.authenticate(req, res, async () => {
@@ -160,7 +182,9 @@ class Appointment {
 
     deleteAppointment = async (req: Request, res: Response) => {
         const { userId, appointmentId } = req.params;
-
+        if (userId !== this.userId.toString()) {
+            return res.status(401).json({ message: "Authentication failed." });
+        }
         try {
             // Check authentication
             this.authenticate(req, res, async () => {

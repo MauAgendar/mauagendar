@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useJwt } from "react-jwt";
 
 interface User {
@@ -16,6 +17,12 @@ export const isAuthenticated = (token: string | null): User => {
                 "email" in decodedToken
             ) {
                 const user: User = decodedToken as User;
+
+                // Set the token on Axios headers
+                axios.defaults.headers.common[
+                    "Authorization"
+                ] = `Bearer ${token}`;
+
                 return user;
             }
         } catch (err) {
@@ -23,5 +30,8 @@ export const isAuthenticated = (token: string | null): User => {
         }
     }
 
-    return { email: "", user_id: 0 }; // Return a default user object if token is not present or decodedToken is null or undefined
+    // If token is not present or decodedToken is null or undefined, clear the Authorization header
+    delete axios.defaults.headers.common["Authorization"];
+
+    return { email: "", user_id: 0 };
 };

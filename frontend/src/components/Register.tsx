@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import axios from "axios";
+
 export default function Register(): JSX.Element {
+    const [name, setName] = useState("");
+    const [phonenumber, setPhonenumber] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [passwordsMatch, setPasswordsMatch] = useState(true);
-    const [phonenumber, setPhonenumber] = useState("");
-    const [name, setName] = useState("");
-
     const navigate = useNavigate();
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -19,38 +20,38 @@ export default function Register(): JSX.Element {
         }
 
         const formData = {
+            name,
+            phonenumber,
             email,
             password,
-            phonenumber,
-            name,
         };
 
         try {
-            const response = await fetch(
-                `http://localhost:${import.meta.env.VITE_AUTH_PORT}/user/register`,
+            const response = await axios.post(
+                `http://localhost:${
+                    import.meta.env.VITE_AUTH_PORT
+                }/user/register`,
+                formData,
                 {
-                    method: "POST",
                     headers: {
                         "Content-Type": "application/json",
                     },
-                    body: JSON.stringify(formData),
                 }
             );
 
-            if (response.ok) {
-                const data = await response.json();
-                const token = data.token;
+            const token = response.data.token;
 
-                // Armazena JWT no localStorage
-                localStorage.setItem("token", token);
-                navigate("/");
-                window.location.reload();
+            // Store JWT token in session storage
+            sessionStorage.setItem("token", token);
+
+            navigate("/");
+            window.location.reload();
+        } catch (error: any) {
+            if (error.response) {
+                window.alert("Erro ao registrar: " + error.response.data.error);
             } else {
-                const errorData = await response.json();
-                window.alert("Erro ao registrar: " + errorData.error);
+                window.alert("Erro ao registrar: " + error.message);
             }
-        } catch (error) {
-            window.alert("Erro ao registrar: " + error);
         }
     };
 

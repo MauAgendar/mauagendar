@@ -1,7 +1,10 @@
 import cors from "cors";
 import express, { Request, Response } from "express";
-const app = express(); // Initializing express
 import dotenv from "dotenv";
+import user from "./routes/user";
+import client from "./configs/database";
+require("./configs/dotenv");
+const app = express(); // Initializing express
 dotenv.config();
 app.use(express.json());
 app.use(cors());
@@ -16,9 +19,6 @@ app.listen(port, () => {
     console.log(`Servidor na porta ${port}.`);
 });
 
-require("./configs/dotenv");
-import client from "./configs/database";
-
 client.connect((err: Error) => {
     // Connected to the database
 
@@ -28,7 +28,5 @@ client.connect((err: Error) => {
         console.log("Registrando dados...");
     }
 });
-
-import user from "./routes/user";
 
 app.use("/user", user);

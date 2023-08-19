@@ -13,12 +13,12 @@ export const login = async (req: Request, res: Response) => {
             [email]
         ); // Verifying if the user exists in the database
         const user = data.rows;
-        console.log(user[0].id);
         if (user.length === 0) {
             res.status(400).json({
                 error: "User not registered, please sign up first",
             });
         } else {
+            console.log(user[0].id);
             bcrypt.compare(password, user[0].password, (err, result) => {
                 // Comparing hashed password
                 if (err) {
@@ -43,7 +43,7 @@ export const login = async (req: Request, res: Response) => {
                     // Handling errors
                     if (!result)
                         res.status(400).json({
-                            error: "Incorrect password!",
+                            error: "Invalid Credetials~",
                         });
                 }
             });

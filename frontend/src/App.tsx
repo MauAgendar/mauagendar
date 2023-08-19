@@ -16,8 +16,9 @@ interface User {
 }
 
 const RequireAuth: FC<{ children: React.ReactElement }> = ({ children }) => {
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     const user = isAuthenticated(token);
+    console.log(user);
     const userIsLogged = user !== null;
 
     if (!userIsLogged) {
@@ -26,7 +27,7 @@ const RequireAuth: FC<{ children: React.ReactElement }> = ({ children }) => {
     }
 
     console.log(`User authenticated: ${user.email} ${user.user_id}`);
-    localStorage.setItem("user_id", user.user_id.toString());
+    sessionStorage.setItem("user_id", user.user_id.toString());
     return children;
 };
 const App = () => {
@@ -52,7 +53,7 @@ const App = () => {
                             <RequireAuth>
                                 <Calendario
                                     userId={Number(
-                                        localStorage.getItem("user_id")
+                                        sessionStorage.getItem("user_id")
                                     )}
                                 />
                             </RequireAuth>
@@ -64,7 +65,7 @@ const App = () => {
                             <RequireAuth>
                                 <Appointments
                                     userId={Number(
-                                        localStorage.getItem("user_id")
+                                        sessionStorage.getItem("user_id")
                                     )}
                                 />
                             </RequireAuth>
