@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import axios from "axios";
 
 export default function Login(): JSX.Element {
     const [email, setEmail] = useState("");
@@ -15,31 +16,29 @@ export default function Login(): JSX.Element {
         };
 
         try {
-            const response = await fetch(
+            const response = await axios.post(
                 `http://localhost:${import.meta.env.VITE_AUTH_PORT}/user/login`,
+                formData,
                 {
-                    method: "POST",
                     headers: {
                         "Content-Type": "application/json",
                     },
-                    body: JSON.stringify(formData),
                 }
             );
 
-            if (response.ok) {
-                const data = await response.json();
-                const token = data.token;
+            const token = response.data.token;
 
-                // Armazena JWT no localStorage
-                localStorage.setItem("token", token);
-                navigate("/");
-                window.location.reload();
+            // Store JWT token in session storage
+            sessionStorage.setItem("token", token);
+
+            navigate("/");
+            window.location.reload();
+        } catch (error: any) {
+            if (error.response) {
+                window.alert("Erro ao logar: " + error.response.data.error);
             } else {
-                const errorData = await response.json();
-                window.alert("Erro ao logar: " + errorData.error);
+                window.alert("Erro ao logar: " + error.message);
             }
-        } catch (error) {
-            window.alert("Erro ao logar: " + error);
         }
     };
 

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { isAuthenticated } from "../utils/Auth";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 interface Appointment {
     id: number;
     title: string;
@@ -21,12 +22,11 @@ const Compromissos: React.FC<CompromissosProps> = ({ userId }) => {
         start_time: "",
         end_time: "",
     });
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchAppointments = async () => {
             if (userId === 0) {
-                // User not authenticated, handle accordingly
-                // For example, redirect to login page
                 return;
             }
 
@@ -48,14 +48,22 @@ const Compromissos: React.FC<CompromissosProps> = ({ userId }) => {
         }
 
         try {
-            const response = await fetch(
+            const token = sessionStorage.getItem("token");
+
+            const response = await axios.get(
                 `http://localhost:${
                     import.meta.env.VITE_CALENDAR_PORT
-                }/user/${userId}/appointments`
+                }/user/${userId}/appointments`,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
             );
-            if (response.ok) {
-                const data = await response.json();
-                return data;
+
+            if (response.status === 200) {
+                return response.data;
             } else {
                 return [];
             }
@@ -72,20 +80,22 @@ const Compromissos: React.FC<CompromissosProps> = ({ userId }) => {
         }
 
         try {
-            const response = await fetch(
+            const token = sessionStorage.getItem("token");
+
+            const response = await axios.post(
                 `http://localhost:${
                     import.meta.env.VITE_CALENDAR_PORT
                 }/user/${userId}/appointments`,
+                newAppointment,
                 {
-                    method: "POST",
                     headers: {
                         "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
                     },
-                    body: JSON.stringify(newAppointment),
                 }
             );
-            const data = await response.json();
-            setAppointments([...appointments, data]);
+
+            setAppointments([...appointments, response.data]);
             setNewAppointment({
                 id: 0,
                 title: "",
@@ -105,19 +115,22 @@ const Compromissos: React.FC<CompromissosProps> = ({ userId }) => {
         }
 
         try {
-            const response = await fetch(
+            const token = sessionStorage.getItem("token");
+
+            const response = await axios.put(
                 `http://localhost:${
                     import.meta.env.VITE_CALENDAR_PORT
                 }/user/${userId}/appointments/${id}`,
+                newAppointment,
                 {
-                    method: "PUT",
                     headers: {
                         "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
                     },
-                    body: JSON.stringify(newAppointment),
                 }
             );
-            const data = await response.json();
+
+            const data = response.data;
             const updatedAppointments = appointments.map(
                 (appointment: Appointment) =>
                     appointment.id === id ? data : appointment
@@ -138,35 +151,47 @@ const Compromissos: React.FC<CompromissosProps> = ({ userId }) => {
     const deleteAppointment = async (userId: number, id: number) => {
         if (userId === 0) {
             // User not authenticated or unauthorized, handle accordingly
+            navigate("/login");
             return;
         }
 
         try {
-            await fetch(
+            const token = sessionStorage.getItem("token");
+
+            await axios.delete(
                 `http://localhost:${
                     import.meta.env.VITE_CALENDAR_PORT
                 }/user/${userId}/appointments/${id}`,
                 {
-                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
                 }
             );
 
-            const response = await fetch(
+            const response = await axios.get(
                 `http://localhost:${
                     import.meta.env.VITE_CALENDAR_PORT
-                }/user/${userId}/appointments`
+                }/user/${userId}/appointments`,
+
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
             );
-            if (response.ok) {
-                const data = await response.json();
-                setAppointments(data);
+
+            if (response.status === 200) {
+                setAppointments(response.data);
             } else {
-                setAppointments([]); // Reset appointments to an empty array if no appointments are returned
+                setAppointments([]);
             }
         } catch (error) {
             console.error("Error deleting appointment:", error);
         }
     };
-
     return (
         <div className="relative flex flex-col justify-center min-h-screen overflow-hidden bg-gray-900">
             <h1 className="text-3xl font-bold text-purple-500 mb-4">
