@@ -39,7 +39,7 @@
           "description": "",
           "parameters": [
             {
-              "name": "body",
+              "name": "payload",
               "in": "body",
               "schema": {
                 "type": "object",
@@ -81,7 +81,7 @@
           "description": "",
           "parameters": [
             {
-              "name": "body",
+              "name": "payload",
               "in": "body",
               "schema": {
                 "type": "object",
@@ -220,7 +220,7 @@
               "type": "string"
             },
             {
-              "name": "body",
+              "name": "payload",
               "in": "body",
               "schema": {
                 "type": "object",
