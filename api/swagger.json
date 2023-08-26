@@ -2,7 +2,7 @@
   "swagger": "2.0",
   "info": {
     "version": "1.0.0",
-    "title": "REST API",
+    "title": "MAUAGENDAR REST API",
     "description": ""
   },
   "host": "localhost",
@@ -10,256 +10,294 @@
   "schemes": [
     "http"
   ],
-  "paths": {
-    ":5050/user/register": {
-      "post": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "example": "batman"
-                },
-                "email": {
-                  "example": "bruce@wayneenterprises.com"
-                },
-                "phonenumber": {
-                  "example": "(11)91234-5678"
-                },
-                "password": {
-                  "example": "Mauagendar$up3r$3nh4"
+  "securityDefinitions": {
+    "bearerAuth":{          
+      "type": "apiKey",
+      "scheme": "bearer",
+      "bearerFormat": "JWT",
+      "in": "header",
+      "name": "Authorization",
+      "description": "Enter the token with the `Bearer: ` prefix, e.g. 'Bearer abcde12345'."
+  }},
+    
+    "tags": [
+      {
+        "name": "auth",
+        "description": "Authentication"
+      },
+      {
+        "name": "appointments",
+        "description": "Operations about appointments"
+      }
+    ],
+    "paths": {
+      ":5050/user/register": {
+        "post": {
+          "tags": [
+            "auth"
+          ],
+          "description": "",
+          "parameters": [
+            {
+              "name": "body",
+              "in": "body",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "example": "batman"
+                  },
+                  "email": {
+                    "example": "bruce@wayneenterprises.com"
+                  },
+                  "phonenumber": {
+                    "example": "(11)91234-5678"
+                  },
+                  "password": {
+                    "example": "Mauagendar$up3r$3nh4"
+                  }
                 }
               }
             }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    ":5050/user/login": {
-      "post": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "email": {
-                  "example": "bruce@wayneenterprises.com"
-                },
-                "password": {
-                  "example": "Mauagendar$up3r$3nh4"
-                }
-              }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK"
+            },
+            "400": {
+              "description": "Bad Request"
+            },
+            "500": {
+              "description": "Internal Server Error"
             }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    ":5000/user/{userId}/appointments": {
-      "get": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "500": {
-            "description": "Internal Server Error"
           }
         }
       },
-      "post": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "title": {
-                  "example": "nome do seu compromisso"
-                },
-                "description": {
-                  "example": "descrição do seu compromisso"
-                },
-                "start_time": {
-                  "example": "2023-09-06 18:00:00.000"
-                },
-                "end_time": {
-                  "example": "2023-09-06 18:00:00.000"
+      ":5050/user/login": {
+        "post": {
+          "tags": [
+            "auth"
+          ],
+          "description": "",
+          "parameters": [
+            {
+              "name": "body",
+              "in": "body",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "example": "bruce@wayneenterprises.com"
+                  },
+                  "password": {
+                    "example": "Mauagendar$up3r$3nh4"
+                  }
                 }
               }
             }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Created"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    ":5000/user/{userId}/appointments/{appointmentId}": {
-      "put": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "appointmentId",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "title": {
-                  "example": "nome do seu compromisso"
-                },
-                "description": {
-                  "example": "descrição do seu compromisso"
-                },
-                "start_time": {
-                  "example": "2023-09-06 18:00:00.000"
-                },
-                "end_time": {
-                  "example": "2023-09-06 18:00:00.000"
-                }
-              }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK"
+            },
+            "400": {
+              "description": "Bad Request"
+            },
+            "500": {
+              "description": "Internal Server Error"
             }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
           }
         }
       },
-      "delete": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "appointmentId",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
+      ":5000/user/{userId}/appointments": {
+        "get": {
+          "tags": [
+            "appointments"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "description": "",
+          "parameters": [
+            {
+              "name": "userId",
+              "in": "path",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
           }
-        ],
-        "responses": {
-          "204": {
-            "description": "No Content"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
+        },
+        "post": {
+          "tags": [
+            "appointments"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "description": "",
+          "parameters": [
+            {
+              "name": "userId",
+              "in": "path",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "name": "payload",
+              "in": "body",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "example": "nome do seu compromisso"
+                  },
+                  "description": {
+                    "example": "descrição do seu compromisso"
+                  },
+                  "start_time": {
+                    "example": "2023-09-06 18:00:00.000"
+                  },
+                  "end_time": {
+                    "example": "2023-09-06 18:00:00.000"
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Created"
+            },
+            "400": {
+              "description": "Bad Request"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
+      ":5000/user/{userId}/appointments/{appointmentId}": {
+        "put": {
+          "tags": [
+            "appointments"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "description": "",
+          "parameters": [
+            {
+              "name": "userId",
+              "in": "path",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "name": "appointmentId",
+              "in": "path",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "name": "body",
+              "in": "body",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "example": "nome do seu compromisso"
+                  },
+                  "description": {
+                    "example": "descrição do seu compromisso"
+                  },
+                  "start_time": {
+                    "example": "2023-09-06 18:00:00.000"
+                  },
+                  "end_time": {
+                    "example": "2023-09-06 18:00:00.000"
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK"
+            },
+            "400": {
+              "description": "Bad Request"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "404": {
+              "description": "Not Found"
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        },
+        "delete": {
+          "tags": [
+            "appointments"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "description": "",
+          "parameters": [
+            {
+              "name": "userId",
+              "in": "path",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "name": "appointmentId",
+              "in": "path",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "204": {
+              "description": "No Content"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "404": {
+              "description": "Not Found"
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
           }
         }
       }
     }
   }
-}
