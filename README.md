@@ -10,3 +10,27 @@
 - Luis Guilherme de Souza Munhoz RA: 20.01937-8
 
 ![](https://avatars.githubusercontent.com/u/129552822?s=400&u=48a7f16b037ad21fe054d0aee8e59fb70a155a35&v)
+
+### Tecnologias utilizadas
+
+- Node
+- Express
+- bcrypt
+- jsonwebtoken
+- Docker
+- PostgreSQL
+- Typescript
+- SwaggerUI
+
+### Como rodar o projeto
+
+- Clone o repositório
+- Altere os arquivos .env.example na raíz e no diretório frontend para .env e preencha as variáveis de ambiente
+- Instale o docker, caso já não o tenha instalado, é possível encontrar o tutorial de instalação no site oficial do docker em : <https://docs.docker.com/engine/install/>
+- Execute o comando `docker compose up --build -d` para subir o projeto
+- Acesse o localhost:${API_PORT} para acessar o swagger e testar as rotas
+- Acesse o localhost:${CLIENT_PORT} para acessar o frontend
+
+### Link do vídeo
+
+<https://youtu.be/U6bmKo-6JgA>
