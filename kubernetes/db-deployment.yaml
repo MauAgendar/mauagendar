@@ -2,12 +2,13 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    kompose.cmd: C:\ProgramData\chocolatey\lib\kubernetes-kompose\tools\kompose.exe convert -f docker-compose.yml --volumes hostPath
-    kompose.version: 1.28.0 (c4137012e)
+    kompose.cmd: kompose convert -f docker-compose.yml
+    kompose.version: 1.31.0 (a04ecdb9e)
   creationTimestamp: null
   labels:
     io.kompose.service: db
   name: db
+  namespace: default
 spec:
   replicas: 1
   selector:
@@ -18,8 +19,8 @@ spec:
   template:
     metadata:
       annotations:
-        kompose.cmd: C:\ProgramData\chocolatey\lib\kubernetes-kompose\tools\kompose.exe convert -f docker-compose.yml --volumes hostPath
-        kompose.version: 1.28.0 (c4137012e)
+        kompose.cmd: kompose convert -f docker-compose.yml
+        kompose.version: 1.31.0 (a04ecdb9e)
       creationTimestamp: null
       labels:
         io.kompose.network/mauagendar-app-network: "true"
@@ -41,25 +42,28 @@ spec:
           livenessProbe:
             exec:
               command:
-                - pg_isready -U ${PG_USER}
+                ["psql", "--password", "postgres", "-U", "postgres", "-d","postgres" , "-c", "SELECT 1"]
             failureThreshold: 5
             periodSeconds: 10
             timeoutSeconds: 5
           name: db
           ports:
             - containerPort: 5432
+              hostPort: 5432
+              protocol: TCP
           resources: {}
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
               name: pgdata
             - mountPath: /docker-entrypoint-initdb.d/create_tables.sql
-              name: db-hostpath1
+              name: db-claim1
       restartPolicy: Always
       volumes:
-        - hostPath:
-            path: C:\Users\STORM\repos\mauagendar
-          name: pgdata
-        - hostPath:
-            path: C:\Users\STORM\repos\mauagendar\sql\create_tables.sql
-          name: db-hostpath1
+        - name: pgdata
+          persistentVolumeClaim:
+            claimName: pgdata
+        - name: db-claim1
+          persistentVolumeClaim:
+            claimName: db-claim1
+
 status: {}
