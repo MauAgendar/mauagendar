@@ -39,7 +39,7 @@
 - Altere o arquivo .env.example na raíz para .env e preencha as variáveis de ambiente
 - Instale o docker, caso já não o tenha instalado, é possível encontrar o tutorial de instalação no site oficial do docker em : <https://docs.docker.com/engine/install/>
 - Habilite o kubernetes no docker desktop
-- Digite ```kubectl apply -f ./kubernetes``` na raíz do projeto
+- Digite ```kubectl apply -f ./kubernetes``` em um terminal na raíz do projeto
 
 ### Link do vídeo
 
