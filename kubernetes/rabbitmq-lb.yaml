@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: "2023-10-04T18:36:12Z"
+  labels:
+    io.kompose.service: rabbitmq
+  name: rabbitmq-load-balancer
+  namespace: default
+  resourceVersion: "70873"
+  uid: eea4034a-25a9-41e3-9e6a-926e5a78a25a
+spec:
+  allocateLoadBalancerNodePorts: true
+  clusterIP: 10.110.58.130
+  clusterIPs:
+  - 10.110.58.130
+  externalTrafficPolicy: Cluster
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - name: port-1
+    nodePort: 31229
+    port: 5672
+    protocol: TCP
+    targetPort: 5672
+  - name: port-2
+    nodePort: 30524
+    port: 15672
+    protocol: TCP
+    targetPort: 15672
+  selector:
+    io.kompose.service: rabbitmq
+  sessionAffinity: None
+  type: LoadBalancer
+status:
+  loadBalancer:
+    ingress:
+    - hostname: localhost
