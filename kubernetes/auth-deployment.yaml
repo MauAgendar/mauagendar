@@ -1,0 +1,93 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yml --volumes hostPath
+    kompose.version: 1.31.0 (a04ecdb9e)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: auth
+  name: auth
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: auth
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yml --volumes hostPath
+        kompose.version: 1.31.0 (a04ecdb9e)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/mauagendar-app-network: "true"
+        io.kompose.service: auth
+    spec:
+      containers:
+        - env:
+            - name: API_PORT
+              valueFrom:
+                configMapKeyRef:
+                  key: API_PORT
+                  name: env
+            - name: AUTH_PORT
+              valueFrom:
+                configMapKeyRef:
+                  key: AUTH_PORT
+                  name: env
+            - name: CALENDAR_PORT
+              valueFrom:
+                configMapKeyRef:
+                  key: CALENDAR_PORT
+                  name: env
+            - name: CLIENT_PORT
+              valueFrom:
+                configMapKeyRef:
+                  key: CLIENT_PORT
+                  name: env
+            - name: NODE_ENV
+              valueFrom:
+                configMapKeyRef:
+                  key: NODE_ENV
+                  name: env
+            - name: PG_DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  key: PG_DATABASE
+                  name: env
+            - name: PG_HOST
+              valueFrom:
+                configMapKeyRef:
+                  key: PG_HOST
+                  name: env
+            - name: PG_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  key: PG_PASSWORD
+                  name: env
+            - name: PG_PORT
+              valueFrom:
+                configMapKeyRef:
+                  key: PG_PORT
+                  name: env
+            - name: PG_USER
+              valueFrom:
+                configMapKeyRef:
+                  key: PG_USER
+                  name: env
+            - name: SECRET_KEY
+              valueFrom:
+                configMapKeyRef:
+                  key: SECRET_KEY
+                  name: env
+          image: luisgmunhoz/mauagendar-auth:latest
+          name: auth
+          ports:
+            - containerPort: 5050
+              hostPort: 5050
+              protocol: TCP
+          resources: {}
+      restartPolicy: Always
+status: {}

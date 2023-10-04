@@ -12,25 +12,29 @@ services:
       interval: 5s
       timeout: 5s
       retries: 3
-    restart: unless-stopped
+    restart: always
 
   auth:
     build:
       context: ./auth/src
       dockerfile: Dockerfile
     ports:
-      - ${AUTH_PORT}:${AUTH_PORT}
+      - 5050:5050
     environment:
-      - AUTH_PORT=${AUTH_PORT}
-      - SECRET_KEY=${SECRET_KEY}
-      - PG_HOST=${PG_HOST}
-      - PG_USER=${PG_USER}
-      - PG_PASSWORD=${PG_PASSWORD}
-      - PG_DATABASE=${PG_DATABASE}
-      - PG_PORT=${PG_PORT}
+      - AUTH_PORT=5050
+      - SECRET_KEY=batman
+      - PG_HOST=db
+      - PG_USER=postgres
+      - PG_PASSWORD=postgres
+      - PG_DATABASE=postgres
+      - PG_PORT=5432
+    env_file:
+      - ./.env
     depends_on:
-      - rabbitmq
-      - db
+      rabbitmq:
+        condition: service_healthy
+      db:
+        condition: service_healthy
     networks:
       - app-network
  
@@ -40,71 +44,74 @@ services:
       context: ./calendar/src
       dockerfile: Dockerfile
     ports:
-      - ${CALENDAR_PORT}:${CALENDAR_PORT}
+      - 5000:5000
+    env_file:
+      - ./.env
     environment:
-      - CALENDAR_PORT=${CALENDAR_PORT}
-      - SECRET_KEY=${SECRET_KEY}
-      - PG_HOST=${PG_HOST}
-      - PG_USER=${PG_USER}
-      - PG_PASSWORD=${PG_PASSWORD}
-      - PG_DATABASE=${PG_DATABASE}
-      - PG_PORT=${PG_PORT}
+      - CALENDAR_PORT=5000
+      - SECRET_KEY=batman
+      - PG_HOST=db
+      - PG_USER=postgres
+      - PG_PASSWORD=postgres
+      - PG_DATABASE=postgres
+      - PG_PORT=5432
+
     depends_on:
-      - rabbitmq
-      - db
-      - auth
+      rabbitmq:
+        condition: service_healthy
+      db:
+        condition: service_healthy
     networks:
       - app-network
-    restart: unless-stopped
+    restart: always
 
 
   db:
     image: postgres:latest
     ports:
-      - ${PG_PORT}:${PG_PORT}
+      - 5432:5432
     environment:
-      - POSTGRES_HOST=${PG_HOST}
-      - POSTGRES_USER=${PG_USER}
-      - POSTGRES_PASSWORD=${PG_PASSWORD}
-      - POSTGRES_DB=${PG_DATABASE}
+      - POSTGRES_HOST=db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DATABASE=postgres
+      - POSTGRES_PORT=5432
     logging:
           options:
             max-size: 10m
             max-file: "3"
-        
+
     volumes:
       - pgdata:/var/lib/postgresql/data
-      - ./sql/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
       
     networks:
       - app-network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${PG_USER}"]
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 10s
       timeout: 5s
       retries: 5
-    restart: unless-stopped
     
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
     ports:
-      - ${CLIENT_PORT}:${CLIENT_PORT}
+      - 3000:3000
     
     depends_on:
       - auth
       - calendar
     networks:
       - app-network
-    restart: unless-stopped
+    restart: always
 
   api_docs:
     build:
       context: ./api
       dockerfile: Dockerfile
     ports:
-      - ${API_PORT}:${API_PORT}
+      - 4000:4000
     env_file:
       - ./.env
     depends_on:
@@ -112,7 +119,7 @@ services:
       - calendar
     networks:
       - app-network
-    restart: unless-stopped
+    restart: always
 
 networks:
   app-network:
