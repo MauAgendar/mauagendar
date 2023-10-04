@@ -33,6 +33,14 @@
 - Acesse o localhost:${API_PORT} para acessar o swagger e testar as rotas
 - Acesse o localhost:${CLIENT_PORT} para acessar o frontend
 
+
+### Como rodar o Kubernetes
+- Clone o repositório
+- Altere o arquivo .env.example na raíz para .env e preencha as variáveis de ambiente
+- Instale o docker, caso já não o tenha instalado, é possível encontrar o tutorial de instalação no site oficial do docker em : <https://docs.docker.com/engine/install/>
+- Habilite o kubernetes no docker desktop
+- Digite ```kubectl apply -f ./kubernetes``` na raíz do projeto
+
 ### Link do vídeo
 
 <https://youtu.be/U6bmKo-6JgA>
