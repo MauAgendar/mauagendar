@@ -18,6 +18,8 @@
 - bcrypt
 - jsonwebtoken
 - Docker
+- Kubernetes
+- RabbitMQ
 - PostgreSQL
 - Typescript
 - SwaggerUI
