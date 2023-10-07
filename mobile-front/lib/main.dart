@@ -1,11 +1,17 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
 
 void main() {
-  runApp(LoginApp());
+  runApp(const LoginApp());
 }
 
 class LoginApp extends StatelessWidget {
+  const LoginApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -19,32 +25,39 @@ class LoginApp extends StatelessWidget {
           ),
           textTheme:
               GoogleFonts.robotoMonoTextTheme(Theme.of(context).textTheme)),
-      home: LoginPage(),
+      home: const LoginPage(),
     );
   }
 }
 
 class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
+
   @override
   _LoginPageState createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
-  TextEditingController _usernameController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
-  void _login() {
+  Future<String> _login() async {
     String username = _usernameController.text;
     String password = _passwordController.text;
 
     // Perform authentication here, e.g., by making an API request.
-
-    if (username == 'your_username' && password == 'your_password') {
-      // Navigate to the next screen or perform desired action.
-      print('Login sucesso!');
-    } else {
-      // Show an error message or handle authentication failure.
-      print('Login falhou!');
+    Map data = {'email': username, 'password': password};
+    var response = await http.post(
+      Uri.parse('http://localhost:5050/user/login'),
+      headers: {"Content-Type": "application/json"},
+      body: jsonEncode(data),
+    );
+    try {
+      String token = jsonDecode(response.body)['token'];
+      return token;
+    } catch (e) {
+      String message = jsonDecode(response.body)['message'];
+      return message;
     }
   }
 
@@ -52,7 +65,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Login'),
+        title: const Text('Login'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -65,18 +78,18 @@ class _LoginPageState extends State<LoginPage> {
               children: <Widget>[
                 TextField(
                   controller: _usernameController,
-                  decoration: InputDecoration(labelText: 'Usuário'),
+                  decoration: const InputDecoration(labelText: 'Usuário'),
                 ),
-                SizedBox(height: 16.0),
+                const SizedBox(height: 16.0),
                 TextField(
                   controller: _passwordController,
                   obscureText: true,
-                  decoration: InputDecoration(labelText: 'Senha'),
+                  decoration: const InputDecoration(labelText: 'Senha'),
                 ),
-                SizedBox(height: 32.0),
+                const SizedBox(height: 32.0),
                 ElevatedButton(
                   onPressed: _login,
-                  child: Text('Login'),
+                  child: const Text('Login'),
                 ),
               ],
             ),
