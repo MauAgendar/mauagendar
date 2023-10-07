@@ -7,7 +7,6 @@ const pgUser: string = process.env.PG_USER as string;
 const pgPassword: string = process.env.PG_PASSWORD as string;
 const pgDatabase: string = process.env.PG_DATABASE as string;
 
-console.log(pgHost, pgPort, pgUser, pgPassword, pgDatabase);
 const sequelize = new Sequelize({
     dialect: "postgres",
     host: pgHost,
