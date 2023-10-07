@@ -9,7 +9,7 @@
     "removeComments": true,
     "preserveConstEnums": true,
   },
-  "include": ["src/**/*.ts"],
+  "include": ["src/**/*.ts", "src/login.test.ts"],
   "exclude": ["node_modules"],
   "typeRoots": [
     "./src/@types",
