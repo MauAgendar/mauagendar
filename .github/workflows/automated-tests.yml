@@ -1,27 +1,30 @@
 name: Automated Tests
 
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    push:
+        branches: [main]
+    pull_request:
+        branches: [main]
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
+    test:
+        runs-on: ubuntu-latest
 
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v2
 
-    - name: Build and run Docker containers
-      run: docker compose -f docker-compose.test.yml up -d
+            - name: Build and run Docker containers
+              run: docker compose -f docker-compose.test.yml up -d
 
-    - name: Wait for services to start
-      run: docker compose -f docker-compose.test.yml ps
+            - name: Wait for services to start
+              run: docker compose -f docker-compose.test.yml ps
 
-    - name: Run tests
-      run: cd ./auth/src && npm run test
+            - name: Install dependencies
+              run: cd ./auth/src && npm install
 
-    - name: Stop and remove Docker containers
-      run: docker-compose -f docker-compose.test.yml down
+            - name: Run tests
+              run: cd ./auth/src && npm run test
+
+            - name: Stop and remove Docker containers
+              run: docker-compose -f docker-compose.test.yml down
