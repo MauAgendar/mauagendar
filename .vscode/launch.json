@@ -1,0 +1,11 @@
+{
+    "configurations": [
+        {
+            "command": "cd ./auth/src && npm run test",
+            "name": "Run npm start",
+            "request": "launch",
+            "type": "node-terminal"
+        },
+        
+    ]
+}

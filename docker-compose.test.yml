@@ -1,0 +1,33 @@
+version: "3"
+services:
+    db:
+        image: postgres:latest
+        ports:
+            - 5432:5432
+        environment:
+            - POSTGRES_HOST=db
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=postgres
+            - POSTGRES_DATABASE=postgres
+            - POSTGRES_PORT=5432
+        logging:
+            options:
+                max-size: 10m
+                max-file: "3"
+
+        volumes:
+            - pgdata:/var/lib/postgresql/data
+
+        networks:
+            - app-network
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready -U postgres"]
+            interval: 10s
+            timeout: 5s
+            retries: 5
+
+networks:
+    app-network:
+
+volumes:
+    pgdata:
