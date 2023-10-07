@@ -1,13 +1,20 @@
-import { Client } from "pg";
+import { Sequelize } from "sequelize";
 import dotenv from "dotenv";
 dotenv.config();
+const pgHost: string = process.env.PG_HOST as string;
+const pgPort: number = parseInt(process.env.PG_PORT as string);
+const pgUser: string = process.env.PG_USER as string;
+const pgPassword: string = process.env.PG_PASSWORD as string;
+const pgDatabase: string = process.env.PG_DATABASE as string;
 
-const client = new Client({
-    host: process.env.PG_HOST,
-    port: Number(process.env.PG_PORT),
-    user: process.env.PG_USER,
-    password: process.env.PG_PASSWORD,
-    database: process.env.PG_DATABASE,
+console.log(pgHost, pgPort, pgUser, pgPassword, pgDatabase);
+const sequelize = new Sequelize({
+    dialect: "postgres",
+    host: pgHost,
+    port: pgPort,
+    username: pgUser,
+    password: pgPassword,
+    database: pgDatabase,
 });
 
-export default client;
+export default sequelize;

@@ -1,10 +1,9 @@
 import { NextFunction, Request, Response } from "express";
-import client from "../configs/database";
 import { publishEvent } from "./publishConsumeEvent";
 import { consumeEvent } from "./publishConsumeEvent";
 import jwt from "jsonwebtoken";
 
-client.connect();
+import AppointmentModel from "../models/appointment";
 
 class Appointment {
     userId: number;
@@ -76,11 +75,12 @@ class Appointment {
             // Check authentication
             this.authenticate(req, res, async () => {
                 // SQL query to retrieve user's appointments from the database
-                const query = "SELECT * FROM appointments WHERE user_id = $1";
-                const values = [userId];
-                const result = await client.query(query, values);
+                const appointments = await AppointmentModel.findAll({
+                    where: {
+                        user_id: userId,
+                    },
+                });
 
-                const appointments = result.rows;
                 await publishEvent("appointment_events", {
                     appointments,
                     action: "read",
@@ -110,17 +110,14 @@ class Appointment {
                 }
 
                 // SQL query to create a new appointment in the database
-                const query = `INSERT INTO appointments (user_id, title, description, start_time, end_time) VALUES ($1, $2, $3, $4, $5) RETURNING *`;
-                const values = [
-                    userId,
+                const newAppointment = await AppointmentModel.create({
+                    user_id: userId,
                     title,
                     description,
                     start_time,
                     end_time,
-                ];
-                const result = await client.query(query, values);
+                });
 
-                const newAppointment = result.rows[0];
                 await publishEvent("appointment_events", {
                     newAppointment,
                     action: "create",
@@ -149,30 +146,38 @@ class Appointment {
                         .json({ message: "All fields are required." });
                 }
 
-                // SQL query to update the appointment in the database
-                const query = `UPDATE appointments SET title = $1, description = $2, start_time = $3, end_time = $4 WHERE id = $5 AND user_id = $6 RETURNING *`;
-                const values = [
-                    title,
-                    description,
-                    start_time,
-                    end_time,
-                    appointmentId,
-                    userId,
-                ];
-                const result = await client.query(query, values);
+                if (userId !== this.userId.toString()) {
+                    return res
+                        .status(401)
+                        .json({ message: "Authentication failed." });
+                }
 
-                if (result.rowCount === 0) {
+                const appointment = await AppointmentModel.findOne({
+                    where: {
+                        id: appointmentId,
+                        user_id: userId,
+                    },
+                });
+
+                if (!appointment) {
                     return res
                         .status(404)
                         .json({ message: "Appointment not found." });
                 }
 
-                const updatedAppointment = result.rows[0];
+                appointment.title = title;
+                appointment.description = description;
+                appointment.start_time = start_time;
+                appointment.end_time = end_time;
+
+                await appointment.save();
+
                 await publishEvent("appointment_events", {
-                    updatedAppointment,
+                    updatedAppointment: appointment,
                     action: "update",
                 });
-                res.json(updatedAppointment);
+
+                res.json(appointment);
             });
         } catch (error) {
             console.error("Error updating appointment:", error);
@@ -188,17 +193,18 @@ class Appointment {
         try {
             // Check authentication
             this.authenticate(req, res, async () => {
-                // SQL query to delete the appointment from the database
-                const query =
-                    "DELETE FROM appointments WHERE id = $1 AND user_id = $2";
-                const values = [appointmentId, userId];
-                const result = await client.query(query, values);
-
-                if (result.rowCount === 0) {
+                const appointment = await AppointmentModel.findOne({
+                    where: {
+                        id: appointmentId,
+                        user_id: userId,
+                    },
+                });
+                if (!appointment) {
                     return res
                         .status(404)
                         .json({ message: "Appointment not found." });
                 }
+                appointment.destroy();
                 await publishEvent("appointment_events", {
                     userId,
                     appointmentId,

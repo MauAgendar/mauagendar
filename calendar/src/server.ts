@@ -2,10 +2,14 @@ import express from "express";
 import cors from "cors";
 import router from "./routes/appointments";
 import dotenv from "dotenv";
-import { access } from "fs";
+import sequelize from "./configs/database";
 require("./configs/dotenv");
 dotenv.config();
 const app = express();
+sequelize.sync().then(() => {
+    console.log("Database connected");
+});
+
 app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
