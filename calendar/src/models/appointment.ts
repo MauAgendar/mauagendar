@@ -62,7 +62,6 @@ AppointmentModel.init(
         underscored: true,
     }
 );
-sequelize.sync();
 const updateUpdatedAtTrigger = `
 CREATE OR REPLACE FUNCTION update_updated_at_column()
 RETURNS TRIGGER AS $$
@@ -78,8 +77,15 @@ BEFORE UPDATE ON appointments
 FOR EACH ROW
 EXECUTE FUNCTION update_updated_at_column();
 `;
-
-sequelize.query("SET DATESTYLE TO DMY");
-sequelize.query(updateUpdatedAtTrigger);
+sequelize.sync().then(
+    () => {
+        console.log("Appointment table created");
+        sequelize.query("SET DATESTYLE TO DMY");
+        sequelize.query(updateUpdatedAtTrigger);
+    },
+    (err) => {
+        console.error("Error creating appointment table:", err);
+    }
+);
 
 export default AppointmentModel;
