@@ -79,12 +79,14 @@ class _LoginPageState extends State<LoginPage> {
                 TextField(
                   controller: _usernameController,
                   decoration: const InputDecoration(labelText: 'Usuário'),
+                  style: const TextStyle(color: Colors.white)
                 ),
                 const SizedBox(height: 16.0),
                 TextField(
                   controller: _passwordController,
                   obscureText: true,
                   decoration: const InputDecoration(labelText: 'Senha'),
+                  style: const TextStyle(color: Colors.white),
                 ),
                 const SizedBox(height: 32.0),
                 ElevatedButton(
