@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
+import 'package:teste1/home.dart';
 
 void main() {
   runApp(const LoginApp());
@@ -15,7 +16,11 @@ class LoginApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Login Page',
+      title: 'Mauagendar',
+      initialRoute: '/',
+      routes: {
+        '/':(context) => const LoginPage(),
+      },
       theme: ThemeData(
           useMaterial3: true,
           colorScheme: ColorScheme.fromSeed(
@@ -24,8 +29,7 @@ class LoginApp extends StatelessWidget {
             brightness: Brightness.dark,
           ),
           textTheme:
-              GoogleFonts.robotoMonoTextTheme(Theme.of(context).textTheme)),
-      home: const LoginPage(),
+              GoogleFonts.robotoMonoTextTheme(Theme.of(context).textTheme))
     );
   }
 }
@@ -61,6 +65,11 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
+  _home(){
+    Navigator.push(context, MaterialPageRoute(
+      builder: (context) => const HomePage(text:'Testando')));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,6 +102,7 @@ class _LoginPageState extends State<LoginPage> {
                   onPressed: _login,
                   child: const Text('Login'),
                 ),
+                ElevatedButton(onPressed: _home, child: const Text('Home'))
               ],
             ),
           ),
