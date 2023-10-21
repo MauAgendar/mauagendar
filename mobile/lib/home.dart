@@ -1,38 +1,47 @@
 import 'package:flutter/material.dart';
 import 'package:mauagendar/user.dart';
+import 'package:mauagendar/navbar.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  const HomePage({Key? key}) : super(key: key);
+
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  String greeting = 'Olá, visitante!';
+  late User _user;
+  String _greeting = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _getUser();
+  }
+
+  Future<void> _getUser() async {
+    final user = await getUserFromJwt();
+    setState(() {
+      _user = user;
+      _greeting = 'Olá, ${_user.email}!';
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<User>(
-      future: getUserFromJwt(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState != ConnectionState.done) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-        greeting = 'Olá, ${snapshot.data?.email}!';
-        return Scaffold(
-          appBar: AppBar(
-            title: const Text('Home Page'),
-          ),
-          body: Center(
-            child: Text(
-              greeting,
-              style: const TextStyle(color: Colors.deepPurple, fontSize: 24.0),
-            ),
-          ),
-        );
-      },
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Mauagendar - Home'),
+        actions: const [
+          Navbar(),
+        ],
+      ),
+      body: Center(
+        child: Text(
+          _greeting,
+          style: const TextStyle(color: Colors.deepPurple, fontSize: 24.0),
+        ),
+      ),
     );
   }
 }

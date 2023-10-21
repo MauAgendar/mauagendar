@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:mauagendar/login.dart';
 import 'package:mauagendar/home.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
 class Register extends StatefulWidget {
   const Register({super.key});
 
