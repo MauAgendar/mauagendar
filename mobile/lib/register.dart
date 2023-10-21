@@ -118,258 +118,261 @@ class _RegisterState extends State<Register> {
             padding: const EdgeInsets.all(16.0),
             child: Form(
               key: _formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Logar no MauAgendar',
-                    style: TextStyle(
-                      fontSize: 24.0,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.purple[500],
-                    ),
-                  ),
-                  const SizedBox(height: 16.0),
-                  TextFormField(
-                    decoration: InputDecoration(
-                      labelText: 'Nome',
-                      labelStyle: TextStyle(
-                        color: Colors.grey[200],
+              child: SizedBox(
+                width: 800,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Cadastre-se',
+                      style: TextStyle(
+                        fontSize: 24.0,
                         fontWeight: FontWeight.bold,
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.grey[700]!,
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.purple[400]!,
-                        ),
+                        color: Colors.purple[500],
                       ),
                     ),
-                    style: TextStyle(
-                      color: Colors.purple[300],
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Por favor, digite seu nome';
-                      }
-                      return null;
-                    },
-                    onChanged: (value) {
-                      setState(() {
-                        name = value;
-                      });
-                    },
-                  ),
-                  const SizedBox(height: 16.0),
-                  TextFormField(
-                    decoration: InputDecoration(
-                      labelText: 'Telefone',
-                      labelStyle: TextStyle(
-                        color: Colors.grey[200],
-                        fontWeight: FontWeight.bold,
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.grey[700]!,
+                    const SizedBox(height: 16.0),
+                    TextFormField(
+                      decoration: InputDecoration(
+                        labelText: 'Nome',
+                        labelStyle: TextStyle(
+                          color: Colors.grey[200],
+                          fontWeight: FontWeight.bold,
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.grey[700]!,
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.purple[400]!,
+                          ),
                         ),
                       ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.purple[400]!,
-                        ),
-                      ),
-                    ),
-                    style: TextStyle(
-                      color: Colors.purple[300],
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Por favor, digite seu telefone';
-                      }
-                      return null;
-                    },
-                    onChanged: (value) {
-                      setState(() {
-                        phonenumber = value;
-                      });
-                    },
-                  ),
-                  const SizedBox(height: 16.0),
-                  TextFormField(
-                    decoration: InputDecoration(
-                      labelText: 'Email',
-                      labelStyle: TextStyle(
-                        color: Colors.grey[200],
-                        fontWeight: FontWeight.bold,
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.grey[700]!,
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.purple[400]!,
-                        ),
-                      ),
-                    ),
-                    style: TextStyle(
-                      color: Colors.purple[300],
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Por favor, digite seu email';
-                      }
-                      return null;
-                    },
-                    onChanged: (value) {
-                      setState(() {
-                        email = value;
-                      });
-                    },
-                  ),
-                  const SizedBox(height: 16.0),
-                  TextFormField(
-                    decoration: InputDecoration(
-                      labelText: 'Senha',
-                      labelStyle: TextStyle(
-                        color: Colors.grey[200],
-                        fontWeight: FontWeight.bold,
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.grey[700]!,
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.purple[400]!,
-                        ),
-                      ),
-                    ),
-                    style: TextStyle(
-                      color: Colors.purple[300],
-                    ),
-                    obscureText: true,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Por favor, digite sua senha';
-                      }
-                      return null;
-                    },
-                    onChanged: (value) {
-                      setState(() {
-                        password = value;
-                      });
-                    },
-                  ),
-                  const SizedBox(height: 16.0),
-                  TextFormField(
-                    decoration: InputDecoration(
-                      labelText: 'Confirmar senha',
-                      labelStyle: TextStyle(
-                        color: Colors.grey[200],
-                        fontWeight: FontWeight.bold,
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.grey[700]!,
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.purple[400]!,
-                        ),
-                      ),
-                      errorBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.red[500]!,
-                        ),
-                      ),
-                      focusedErrorBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.red[500]!,
-                        ),
-                      ),
-                    ),
-                    style: TextStyle(
-                      color: Colors.purple[300],
-                    ),
-                    obscureText: true,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Por favor, confirme sua senha';
-                      }
-                      if (value != password) {
-                        return 'As senhas não coincidem. Tente novamente.';
-                      }
-                      return null;
-                    },
-                    onChanged: (value) {
-                      setState(() {
-                        confirmPassword = value;
-                        passwordsMatch = true;
-                      });
-                    },
-                  ),
-                  if (!passwordsMatch)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: Text(
-                        'As senhas não coincidem. Tente novamente.',
-                        style: TextStyle(
-                          color: Colors.red[500],
-                          fontSize: 12.0,
-                        ),
-                      ),
-                    ),
-                  const SizedBox(height: 16.0),
-                  ElevatedButton(
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        _handleSubmit();
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.white,
-                      backgroundColor: Colors.purple[700],
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 16.0,
-                      ),
-                      minimumSize: const Size(double.infinity, 0),
-                    ),
-                    child: const Text('Cadastre-se'),
-                  ),
-                  const SizedBox(height: 16.0),
-                  Text(
-                    'Já tem uma conta?',
-                    style: TextStyle(
-                      color: Colors.grey[300],
-                      fontSize: 12.0,
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const LoginScreen()));
-                    },
-                    child: Text(
-                      'Logar',
                       style: TextStyle(
                         color: Colors.purple[300],
-                        fontWeight: FontWeight.bold,
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Por favor, digite seu nome';
+                        }
+                        return null;
+                      },
+                      onChanged: (value) {
+                        setState(() {
+                          name = value;
+                        });
+                      },
+                    ),
+                    const SizedBox(height: 16.0),
+                    TextFormField(
+                      decoration: InputDecoration(
+                        labelText: 'Telefone',
+                        labelStyle: TextStyle(
+                          color: Colors.grey[200],
+                          fontWeight: FontWeight.bold,
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.grey[700]!,
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.purple[400]!,
+                          ),
+                        ),
+                      ),
+                      style: TextStyle(
+                        color: Colors.purple[300],
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Por favor, digite seu telefone';
+                        }
+                        return null;
+                      },
+                      onChanged: (value) {
+                        setState(() {
+                          phonenumber = value;
+                        });
+                      },
+                    ),
+                    const SizedBox(height: 16.0),
+                    TextFormField(
+                      decoration: InputDecoration(
+                        labelText: 'Email',
+                        labelStyle: TextStyle(
+                          color: Colors.grey[200],
+                          fontWeight: FontWeight.bold,
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.grey[700]!,
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.purple[400]!,
+                          ),
+                        ),
+                      ),
+                      style: TextStyle(
+                        color: Colors.purple[300],
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Por favor, digite seu email';
+                        }
+                        return null;
+                      },
+                      onChanged: (value) {
+                        setState(() {
+                          email = value;
+                        });
+                      },
+                    ),
+                    const SizedBox(height: 16.0),
+                    TextFormField(
+                      decoration: InputDecoration(
+                        labelText: 'Senha',
+                        labelStyle: TextStyle(
+                          color: Colors.grey[200],
+                          fontWeight: FontWeight.bold,
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.grey[700]!,
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.purple[400]!,
+                          ),
+                        ),
+                      ),
+                      style: TextStyle(
+                        color: Colors.purple[300],
+                      ),
+                      obscureText: true,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Por favor, digite sua senha';
+                        }
+                        return null;
+                      },
+                      onChanged: (value) {
+                        setState(() {
+                          password = value;
+                        });
+                      },
+                    ),
+                    const SizedBox(height: 16.0),
+                    TextFormField(
+                      decoration: InputDecoration(
+                        labelText: 'Confirmar senha',
+                        labelStyle: TextStyle(
+                          color: Colors.grey[200],
+                          fontWeight: FontWeight.bold,
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.grey[700]!,
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.purple[400]!,
+                          ),
+                        ),
+                        errorBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.red[500]!,
+                          ),
+                        ),
+                        focusedErrorBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.red[500]!,
+                          ),
+                        ),
+                      ),
+                      style: TextStyle(
+                        color: Colors.purple[300],
+                      ),
+                      obscureText: true,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Por favor, confirme sua senha';
+                        }
+                        if (value != password) {
+                          return 'As senhas não coincidem. Tente novamente.';
+                        }
+                        return null;
+                      },
+                      onChanged: (value) {
+                        setState(() {
+                          confirmPassword = value;
+                          passwordsMatch = true;
+                        });
+                      },
+                    ),
+                    if (!passwordsMatch)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Text(
+                          'As senhas não coincidem. Tente novamente.',
+                          style: TextStyle(
+                            color: Colors.red[500],
+                            fontSize: 12.0,
+                          ),
+                        ),
+                      ),
+                    const SizedBox(height: 16.0),
+                    ElevatedButton(
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          _handleSubmit();
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        foregroundColor: Colors.white,
+                        backgroundColor: Colors.purple[700],
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 16.0,
+                        ),
+                        minimumSize: const Size(double.infinity, 0),
+                      ),
+                      child: const Text('Cadastre-se'),
+                    ),
+                    const SizedBox(height: 16.0),
+                    Text(
+                      'Já tem uma conta?',
+                      style: TextStyle(
+                        color: Colors.grey[300],
+                        fontSize: 12.0,
                       ),
                     ),
-                  ),
-                ],
+                    TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const LoginScreen()));
+                      },
+                      child: Text(
+                        'Logar',
+                        style: TextStyle(
+                          color: Colors.purple[300],
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

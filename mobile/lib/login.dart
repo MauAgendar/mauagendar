@@ -114,126 +114,129 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               child: Form(
                 key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Text(
-                      'Logar no MauAgendar',
-                      style: TextStyle(
-                        fontSize: 24.0,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.purple[500],
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 16.0),
-                    TextFormField(
-                      controller: _emailController,
-                      keyboardType: TextInputType.emailAddress,
-                      style: const TextStyle(color: Colors.white),
-                      decoration: InputDecoration(
-                        labelText: 'Email',
-                        labelStyle: TextStyle(
-                          color: Colors.grey[200],
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.purple[400]!,
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.purple[400]!,
-                          ),
-                        ),
-                      ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Campo obrigatório';
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 16.0),
-                    TextFormField(
-                      controller: _passwordController,
-                      obscureText: true,
-                      style: const TextStyle(color: Colors.white),
-                      decoration: InputDecoration(
-                        labelText: 'Senha',
-                        labelStyle: TextStyle(
-                          color: Colors.grey[200],
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.purple[400]!,
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.purple[400]!,
-                          ),
-                        ),
-                      ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Campo obrigatório';
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 16.0),
-                    TextButton(
-                      onPressed: () => Navigator.pushNamed(
-                        context,
-                        '/',
-                      ),
-                      child: Text(
-                        'Esqueceu a Senha?',
+                child: SizedBox(
+                  width: 800,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Text(
+                        'Logar no MauAgendar',
                         style: TextStyle(
-                          color: Colors.purple[300],
-                          decoration: TextDecoration.underline,
+                          fontSize: 24.0,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.purple[500],
                         ),
+                        textAlign: TextAlign.center,
                       ),
-                    ),
-                    const SizedBox(height: 16.0),
-                    ElevatedButton(
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          _handleSubmit();
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                        foregroundColor: Colors.white,
-                        backgroundColor: Colors.purple[700],
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.0),
+                      const SizedBox(height: 16.0),
+                      TextFormField(
+                        controller: _emailController,
+                        keyboardType: TextInputType.emailAddress,
+                        style: const TextStyle(color: Colors.white),
+                        decoration: InputDecoration(
+                          labelText: 'Email',
+                          labelStyle: TextStyle(
+                            color: Colors.grey[200],
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.purple[400]!,
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.purple[400]!,
+                            ),
+                          ),
                         ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Campo obrigatório';
+                          }
+                          return null;
+                        },
                       ),
-                      child: const Text('Login'),
-                    ),
-                    const SizedBox(height: 16.0),
-                    Text(
-                      'Não tem uma conta?',
-                      style: TextStyle(
-                        color: Colors.grey[300],
+                      const SizedBox(height: 16.0),
+                      TextFormField(
+                        controller: _passwordController,
+                        obscureText: true,
+                        style: const TextStyle(color: Colors.white),
+                        decoration: InputDecoration(
+                          labelText: 'Senha',
+                          labelStyle: TextStyle(
+                            color: Colors.grey[200],
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.purple[400]!,
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.purple[400]!,
+                            ),
+                          ),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Campo obrigatório';
+                          }
+                          return null;
+                        },
                       ),
-                      textAlign: TextAlign.center,
-                    ),
-                    TextButton(
-                      onPressed: () => Navigator.push(
+                      const SizedBox(height: 16.0),
+                      TextButton(
+                        onPressed: () => Navigator.pushNamed(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => const Register())),
-                      child: Text(
-                        'Cadastre-se',
-                        style: TextStyle(
-                          color: Colors.purple[300],
-                          decoration: TextDecoration.underline,
+                          '/',
+                        ),
+                        child: Text(
+                          'Esqueceu a Senha?',
+                          style: TextStyle(
+                            color: Colors.purple[300],
+                            decoration: TextDecoration.underline,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                      const SizedBox(height: 16.0),
+                      ElevatedButton(
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            _handleSubmit();
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          foregroundColor: Colors.white,
+                          backgroundColor: Colors.purple[700],
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                        ),
+                        child: const Text('Login'),
+                      ),
+                      const SizedBox(height: 16.0),
+                      Text(
+                        'Não tem uma conta?',
+                        style: TextStyle(
+                          color: Colors.grey[300],
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      TextButton(
+                        onPressed: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const Register())),
+                        child: Text(
+                          'Cadastre-se',
+                          style: TextStyle(
+                            color: Colors.purple[300],
+                            decoration: TextDecoration.underline,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
