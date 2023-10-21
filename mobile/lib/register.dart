@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:teste1/login.dart';
-
+import 'package:mauagendar/login.dart';
+import 'package:mauagendar/home.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 class Register extends StatefulWidget {
   const Register({super.key});
 
@@ -44,11 +46,22 @@ class _RegisterState extends State<Register> {
         body: jsonEncode(formData),
       );
 
-      final token = jsonDecode(response.body)['token'];
+      if (response.statusCode >= 400) {
+        throw Exception(jsonDecode(response.body)['message']);
+      }
 
-      // Store JWT token in session storage
-      // Not necessary in Flutter, but you could use shared_preferences package
-      // to store the token locally.
+      final responseJson = jsonDecode(response.body);
+      if (responseJson.containsKey('token')) {
+        final token = responseJson['token'];
+        // Create storage
+        const storage = FlutterSecureStorage();
+
+        // Write value
+        await storage.write(key: 'jwt', value: token);
+        _home();
+      } else {
+        throw Exception('Token não encontrado');
+      }
     } catch (error) {
       if (error is http.Response) {
         showDialog(
@@ -84,6 +97,15 @@ class _RegisterState extends State<Register> {
         );
       }
     }
+  }
+
+  Future<dynamic> _home() {
+    return Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const HomePage(),
+      ),
+    );
   }
 
   @override

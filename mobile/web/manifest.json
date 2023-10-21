@@ -1,6 +1,6 @@
 {
-    "name": "teste1",
-    "short_name": "teste1",
+    "name": "mauagendar",
+    "short_name": "mauagendar",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

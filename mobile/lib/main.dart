@@ -4,9 +4,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
-import 'package:teste1/home.dart';
-import 'package:teste1/login.dart';
-import 'package:teste1/register.dart';
+import 'package:mauagendar/home.dart';
+import 'package:mauagendar/login.dart';
+import 'package:mauagendar/register.dart';
 
 void main() {
   runApp(const LoginApp());

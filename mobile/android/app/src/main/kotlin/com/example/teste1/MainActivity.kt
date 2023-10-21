@@ -1,4 +1,4 @@
-package com.example.teste1
+package com.example.mauagendar
 
 import io.flutter.embedding.android.FlutterActivity
 

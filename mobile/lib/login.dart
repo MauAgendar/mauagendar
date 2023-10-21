@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:teste1/register.dart';
-import 'package:teste1/home.dart';
+import 'package:mauagendar/register.dart';
+import 'package:mauagendar/home.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -32,23 +32,22 @@ class _LoginScreenState extends State<LoginScreen> {
           'Content-Type': 'application/json',
         },
       );
-      try {
-        final token = jsonDecode(response.body)['token'];
-        _home();
+      if (response.statusCode != 200) {
+        throw Exception(jsonDecode(response.body)['message']);
+      }
+
+      final responseJson = jsonDecode(response.body);
+      if (responseJson.containsKey('token')) {
+        final token = responseJson['token'];
         // Create storage
-        final storage = FlutterSecureStorage();
+        const storage = FlutterSecureStorage();
 
         // Write value
         await storage.write(key: 'jwt', value: token);
-        return token;
-      } catch (e) {
-        final message = jsonDecode(response.body)['message'];
-        return message;
+        _home();
+      } else {
+        throw Exception('Token não encontrado');
       }
-
-      // Store JWT token in session storage
-      // Not applicable in Flutter, use shared preferences instead
-      // sessionStorage.setItem('token', token);
     } catch (error) {
       final errorMessage = error is http.Response
           ? 'Erro ao logar: ${error.body}'
@@ -57,8 +56,13 @@ class _LoginScreenState extends State<LoginScreen> {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
+          backgroundColor: Colors.deepPurple[800]!,
+          titleTextStyle: const TextStyle(color: Colors.red, fontSize: 24.0),
           title: const Text('Erro'),
-          content: Text(errorMessage),
+          content: Text(
+            errorMessage,
+            style: const TextStyle(color: Colors.red),
+          ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
@@ -74,9 +78,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => const HomePage(
-          text: "Batnab",
-        ),
+        builder: (context) => const HomePage(),
       ),
     );
   }
@@ -184,7 +186,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     TextButton(
                       onPressed: () => Navigator.pushNamed(
                         context,
-                        'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+                        '/',
                       ),
                       child: Text(
                         'Esqueceu a Senha?',
