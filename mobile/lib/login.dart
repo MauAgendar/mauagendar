@@ -193,10 +193,26 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       const SizedBox(height: 16.0),
                       TextButton(
-                        onPressed: () => Navigator.pushNamed(
-                          context,
-                          '/',
-                        ),
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: const Text('Esqueceu a Senha?'),
+                              titleTextStyle:
+                                  const TextStyle(color: Colors.white),
+                              content: const Text(
+                                  'Devido a LGPD não temos aceso a sua senha, fique tranquilo!'),
+                              contentTextStyle:
+                                  const TextStyle(color: Colors.white),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: const Text('OK'),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
                         child: Text(
                           'Esqueceu a Senha?',
                           style: TextStyle(
