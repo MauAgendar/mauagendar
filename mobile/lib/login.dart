@@ -2,9 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:mauagendar/register.dart';
 import 'package:mauagendar/home.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:mauagendar/user.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -44,7 +46,12 @@ class _LoginScreenState extends State<LoginScreen> {
 
         // Write value
         await storage.write(key: 'jwt', value: token);
-        _home();
+        final decodedToken = JwtDecoder.decode(token);
+        final user = User(
+          email: decodedToken['email'].toString(),
+          id: decodedToken['user_id'].toString(),
+        );
+        _home(user);
       } else {
         throw Exception('Token não encontrado');
       }
@@ -74,11 +81,11 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  Future<dynamic> _home() {
+  Future<dynamic> _home(User user) {
     return Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => const HomePage(),
+        builder: (context) => HomePage(user: user),
       ),
     );
   }

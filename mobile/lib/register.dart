@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'dart:convert';
 import 'package:mauagendar/login.dart';
 import 'package:mauagendar/home.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:mauagendar/user.dart';
 
 class Register extends StatefulWidget {
   const Register({super.key});
@@ -58,7 +60,12 @@ class _RegisterState extends State<Register> {
 
         // Write value
         await storage.write(key: 'jwt', value: token);
-        _home();
+        final decodedToken = JwtDecoder.decode(token);
+        final user = User(
+          email: decodedToken['email'].toString(),
+          id: decodedToken['id'].toString(),
+        );
+        _home(user);
       } else {
         throw Exception('Token não encontrado');
       }
@@ -99,11 +106,11 @@ class _RegisterState extends State<Register> {
     }
   }
 
-  Future<dynamic> _home() {
+  Future<dynamic> _home(User user) {
     return Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => const HomePage(),
+        builder: (context) => HomePage(user: user),
       ),
     );
   }

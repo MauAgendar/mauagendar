@@ -3,28 +3,17 @@ import 'package:mauagendar/user.dart';
 import 'package:mauagendar/navbar.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  final User user;
+  const HomePage({super.key, required this.user});
 
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  late User _user;
-  String _greeting = '';
-
   @override
   void initState() {
     super.initState();
-    _getUser();
-  }
-
-  Future<void> _getUser() async {
-    final user = await getUserFromJwt();
-    setState(() {
-      _user = user;
-      _greeting = 'Olá, ${_user.email}!';
-    });
   }
 
   @override
@@ -32,13 +21,15 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Mauagendar - Home'),
-        actions: const [
-          Navbar(),
+        actions: [
+          Navbar(
+            userId: widget.user.id,
+          ),
         ],
       ),
       body: Center(
         child: Text(
-          _greeting,
+          "Olá ${widget.user.email}!",
           style: const TextStyle(color: Colors.deepPurple, fontSize: 24.0),
         ),
       ),
