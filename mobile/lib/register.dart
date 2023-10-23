@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:mauagendar/login.dart';
 import 'package:mauagendar/home.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:mauagendar/main.dart';
 import 'package:mauagendar/user.dart';
 
 class Register extends StatefulWidget {
@@ -118,7 +119,7 @@ class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[900],
+      backgroundColor: backgroundColor,
       body: Center(
         child: SingleChildScrollView(
           child: Padding(
@@ -135,7 +136,7 @@ class _RegisterState extends State<Register> {
                       style: TextStyle(
                         fontSize: 24.0,
                         fontWeight: FontWeight.bold,
-                        color: Colors.purple[500],
+                        color: textColor,
                       ),
                     ),
                     const SizedBox(height: 16.0),
@@ -143,22 +144,22 @@ class _RegisterState extends State<Register> {
                       decoration: InputDecoration(
                         labelText: 'Nome',
                         labelStyle: TextStyle(
-                          color: Colors.grey[200],
+                          color: textColor,
                           fontWeight: FontWeight.bold,
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: Colors.grey[700]!,
+                            color: Color.fromARGB(100, 255, 255, 255),
                           ),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: Colors.purple[400]!,
+                            color: accentColor,
                           ),
                         ),
                       ),
                       style: TextStyle(
-                        color: Colors.purple[300],
+                        color: accentColor,
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -182,17 +183,17 @@ class _RegisterState extends State<Register> {
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: Colors.grey[700]!,
+                            color: Color.fromARGB(100, 255, 255, 255),
                           ),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: Colors.purple[400]!,
+                            color: accentColor,
                           ),
                         ),
                       ),
                       style: TextStyle(
-                        color: Colors.purple[300],
+                        color: accentColor,
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -216,17 +217,17 @@ class _RegisterState extends State<Register> {
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: Colors.grey[700]!,
+                            color: Color.fromARGB(100, 255, 255, 255),
                           ),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: Colors.purple[400]!,
+                            color: accentColor,
                           ),
                         ),
                       ),
                       style: TextStyle(
-                        color: Colors.purple[300],
+                        color: accentColor,
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -250,17 +251,17 @@ class _RegisterState extends State<Register> {
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: Colors.grey[700]!,
+                            color: Color.fromARGB(100, 255, 255, 255),
                           ),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: Colors.purple[400]!,
+                            color: accentColor,
                           ),
                         ),
                       ),
                       style: TextStyle(
-                        color: Colors.purple[300],
+                        color: accentColor,
                       ),
                       obscureText: true,
                       validator: (value) {
@@ -285,12 +286,12 @@ class _RegisterState extends State<Register> {
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: Colors.grey[700]!,
+                            color: Color.fromARGB(100, 255, 255, 255),
                           ),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: Colors.purple[400]!,
+                            color: accentColor,
                           ),
                         ),
                         errorBorder: OutlineInputBorder(
@@ -305,7 +306,7 @@ class _RegisterState extends State<Register> {
                         ),
                       ),
                       style: TextStyle(
-                        color: Colors.purple[300],
+                        color: accentColor,
                       ),
                       obscureText: true,
                       validator: (value) {
@@ -344,7 +345,7 @@ class _RegisterState extends State<Register> {
                       },
                       style: ElevatedButton.styleFrom(
                         foregroundColor: Colors.white,
-                        backgroundColor: Colors.purple[700],
+                        backgroundColor: primaryColor,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8.0),
                         ),
@@ -373,7 +374,7 @@ class _RegisterState extends State<Register> {
                       child: Text(
                         'Logar',
                         style: TextStyle(
-                          color: Colors.purple[300],
+                          color: accentColor,
                           fontWeight: FontWeight.bold,
                         ),
                       ),

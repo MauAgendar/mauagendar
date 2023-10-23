@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:mauagendar/main.dart';
 import 'package:mauagendar/register.dart';
 import 'package:mauagendar/home.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -95,21 +96,14 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Colors.grey[900]!,
-              Colors.grey[800]!,
-            ],
-          ),
+          color: backgroundColor,
         ),
         child: Center(
           child: SingleChildScrollView(
             child: Container(
               padding: const EdgeInsets.all(16.0),
               decoration: BoxDecoration(
-                color: Colors.grey[800],
+                color: Color.fromARGB(15, 255, 255, 255),
                 borderRadius: BorderRadius.circular(8.0),
                 boxShadow: [
                   BoxShadow(
@@ -131,7 +125,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         style: TextStyle(
                           fontSize: 24.0,
                           fontWeight: FontWeight.bold,
-                          color: Colors.purple[500],
+                          color: textColor,
                         ),
                         textAlign: TextAlign.center,
                       ),
@@ -139,7 +133,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       TextFormField(
                         controller: _emailController,
                         keyboardType: TextInputType.emailAddress,
-                        style: const TextStyle(color: Colors.white),
+                        style: TextStyle(color: textColor),
                         decoration: InputDecoration(
                           labelText: 'Email',
                           labelStyle: TextStyle(
@@ -147,12 +141,12 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
-                              color: Colors.purple[400]!,
+                              color: Color.fromARGB(100, 255, 255, 255),
                             ),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(
-                              color: Colors.purple[400]!,
+                              color: accentColor,
                             ),
                           ),
                         ),
@@ -167,20 +161,20 @@ class _LoginScreenState extends State<LoginScreen> {
                       TextFormField(
                         controller: _passwordController,
                         obscureText: true,
-                        style: const TextStyle(color: Colors.white),
+                        style: TextStyle(color: textColor),
                         decoration: InputDecoration(
                           labelText: 'Senha',
                           labelStyle: TextStyle(
-                            color: Colors.grey[200],
+                            color: textColor,
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
-                              color: Colors.purple[400]!,
+                              color: Color.fromARGB(100, 255, 255, 255),
                             ),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(
-                              color: Colors.purple[400]!,
+                              color: accentColor,
                             ),
                           ),
                         ),
@@ -216,7 +210,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: Text(
                           'Esqueceu a Senha?',
                           style: TextStyle(
-                            color: Colors.purple[300],
+                            color: accentColor,
                             decoration: TextDecoration.underline,
                           ),
                         ),
@@ -229,8 +223,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           }
                         },
                         style: ElevatedButton.styleFrom(
-                          foregroundColor: Colors.white,
-                          backgroundColor: Colors.purple[700],
+                          foregroundColor: textColor,
+                          backgroundColor: primaryColor,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8.0),
                           ),
@@ -241,7 +235,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       Text(
                         'Não tem uma conta?',
                         style: TextStyle(
-                          color: Colors.grey[300],
+                          color: textColor,
                         ),
                         textAlign: TextAlign.center,
                       ),
@@ -253,7 +247,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: Text(
                           'Cadastre-se',
                           style: TextStyle(
-                            color: Colors.purple[300],
+                            color: accentColor,
                             decoration: TextDecoration.underline,
                           ),
                         ),
