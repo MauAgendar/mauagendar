@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mauagendar/calendar.dart';
 import 'package:mauagendar/appointments.dart';
 
 class Navbar extends StatefulWidget {
@@ -32,8 +31,6 @@ class _NavbarState extends State<Navbar> {
             Row(
               children: [
                 _buildNavLink(
-                    context, 'Calendario', '/calendar', widget.userId),
-                _buildNavLink(
                     context, 'Compromissos', '/appointments', widget.userId),
               ],
             ),
@@ -50,13 +47,7 @@ Widget _buildNavLink(
     padding: const EdgeInsets.symmetric(horizontal: 16.0),
     child: TextButton(
       onPressed: () {
-        if (route == '/calendar') {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => CalendarPage(userId: userId)),
-          );
-        } else if (route == '/appointments') {
+        if (route == '/appointments') {
           Navigator.push(
             context,
             MaterialPageRoute(

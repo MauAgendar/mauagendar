@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
-import 'package:mauagendar/calendar.dart';
 import 'dart:convert';
 
 class Appointment {
@@ -62,6 +61,11 @@ class Compromissos extends StatefulWidget {
 }
 
 class _CompromissosState extends State<Compromissos> {
+  final _formKey = GlobalKey<FormState>();
+  final _titleController = TextEditingController();
+  final _descriptionController = TextEditingController();
+  final _startTimeController = TextEditingController();
+  final _endTimeController = TextEditingController();
   late List<Appointment> _appointments;
   late Appointment _newAppointment;
 
@@ -208,6 +212,15 @@ class _CompromissosState extends State<Compromissos> {
   }
 
   @override
+  void dispose() {
+    _titleController.dispose();
+    _descriptionController.dispose();
+    _startTimeController.dispose();
+    _endTimeController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -216,218 +229,280 @@ class _CompromissosState extends State<Compromissos> {
           onPressed: () => Navigator.pop(context),
         ),
         title: const Text('Compromissos'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.calendar_today),
-            onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => CalendarPage(userId: widget.userId)),
-            ),
-          ),
-        ],
       ),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(height: 16),
-            Column(
-              children: _appointments.map((appointment) {
-                return Container(
-                  padding: const EdgeInsets.all(16),
-                  margin:
-                      const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.purple[300]!),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        appointment.title,
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              const SizedBox(height: 16),
+              Column(
+                children: _appointments.map((appointment) {
+                  return Container(
+                    padding: const EdgeInsets.all(16),
+                    margin:
+                        const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.purple[300]!),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          appointment.title,
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        appointment.description,
-                        style: const TextStyle(
-                          color: Colors.white,
+                        const SizedBox(height: 8),
+                        Text(
+                          appointment.description,
+                          style: const TextStyle(
+                            color: Colors.white,
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        'Tempo de Início: ${appointment.startTime}',
-                        style: const TextStyle(
-                          color: Colors.white,
+                        const SizedBox(height: 8),
+                        Text(
+                          'Tempo de Início: ${appointment.startTime}',
+                          style: const TextStyle(
+                            color: Colors.white,
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        'Prazo: ${appointment.endTime}',
-                        style: const TextStyle(
-                          color: Colors.white,
+                        const SizedBox(height: 8),
+                        Text(
+                          'Prazo: ${appointment.endTime}',
+                          style: const TextStyle(
+                            color: Colors.white,
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 16),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          TextButton(
-                            onPressed: () => _deleteAppointment(appointment.id),
-                            child: Text(
-                              'Deletar',
-                              style: TextStyle(
-                                color: Colors.red[500],
+                        const SizedBox(height: 16),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            TextButton(
+                              onPressed: () =>
+                                  _deleteAppointment(appointment.id),
+                              child: Text(
+                                'Deletar',
+                                style: TextStyle(
+                                  color: Colors.red[500],
+                                ),
                               ),
                             ),
-                          ),
-                          TextButton(
-                            onPressed: () => setState(() {
-                              _newAppointment = appointment;
-                            }),
-                            child: Text(
-                              'Editar',
-                              style: TextStyle(
-                                color: Colors.blue[500],
+                            TextButton(
+                              onPressed: () => setState(() {
+                                _newAppointment = appointment.copyWith();
+                                _titleController.text = appointment.title;
+                                _descriptionController.text =
+                                    appointment.description;
+                                _startTimeController.text =
+                                    appointment.startTime;
+                                _endTimeController.text = appointment.endTime;
+                              }),
+                              child: Text(
+                                'Editar',
+                                style: TextStyle(
+                                  color: Colors.blue[500],
+                                ),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                );
-              }).toList(),
-            ),
-            const SizedBox(height: 16),
-            const Text(
-              'Criar Compromisso',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
+                          ],
+                        ),
+                      ],
+                    ),
+                  );
+                }).toList(),
               ),
-            ),
-            const SizedBox(height: 16),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  TextField(
-                    decoration: const InputDecoration(
-                      labelText: 'Título',
-                    ),
-                    style: const TextStyle(
-                      color: Colors.white,
-                    ),
-                    onChanged: (value) {
-                      setState(() {
-                        _newAppointment =
-                            _newAppointment.copyWith(title: value);
-                      });
-                    },
-                  ),
-                  const SizedBox(height: 16),
-                  TextField(
-                    decoration: const InputDecoration(
-                      labelText: 'Descrição',
-                    ),
-                    style: const TextStyle(
-                      color: Colors.white,
-                    ),
-                    onChanged: (value) {
-                      setState(() {
-                        _newAppointment =
-                            _newAppointment.copyWith(description: value);
-                      });
-                    },
-                  ),
-                  const SizedBox(height: 16),
-                  TextField(
-                    decoration: const InputDecoration(
-                      labelText: 'Tempo de Início',
-                    ),
-                    style: const TextStyle(
-                      color: Colors.white,
-                    ),
-                    onChanged: (value) {
-                      setState(() {
-                        _newAppointment =
-                            _newAppointment.copyWith(startTime: value);
-                      });
-                    },
-                  ),
-                  const SizedBox(height: 16),
-                  TextField(
-                    decoration: const InputDecoration(
-                      labelText: 'Prazo',
-                    ),
-                    style: const TextStyle(
-                      color: Colors.white,
-                    ),
-                    onChanged: (value) {
-                      setState(() {
-                        _newAppointment =
-                            _newAppointment.copyWith(endTime: value);
-                      });
-                    },
-                  ),
-                  const SizedBox(height: 16),
-                  ElevatedButton(
-                    onPressed: () {
-                      if (_newAppointment.id == 0) {
-                        _createAppointment().catchError((error) {
-                          showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                              title: const Text('Error'),
-                              content: Text(error.toString()),
-                              actions: [
-                                TextButton(
-                                  onPressed: () => Navigator.pop(context),
-                                  child: const Text('OK'),
-                                ),
-                              ],
-                            ),
-                          );
-                        });
-                      } else {
-                        _updateAppointment(_newAppointment.id)
-                            .catchError((error) {
-                          showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                              title: const Text('Error'),
-                              content: Text(error.toString()),
-                              actions: [
-                                TextButton(
-                                  onPressed: () => Navigator.pop(context),
-                                  child: const Text('OK'),
-                                ),
-                              ],
-                            ),
-                          );
-                        });
-                      }
-                    },
-                    child: Text(
-                      _newAppointment.id == 0 ? 'Criar' : 'Atualizar',
+              const SizedBox(height: 16),
+              const Text(
+                'Criar ou Atualizar Compromisso',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+              const SizedBox(height: 16),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    TextFormField(
+                      controller: _titleController,
+                      decoration: const InputDecoration(
+                        labelText: 'Título',
+                      ),
                       style: const TextStyle(
                         color: Colors.white,
                       ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Por favor, insira um título';
+                        }
+                        return null;
+                      },
+                      onChanged: (value) {
+                        setState(() {
+                          _newAppointment =
+                              _newAppointment.copyWith(title: value);
+                        });
+                      },
                     ),
-                  ),
-                ],
+                    const SizedBox(height: 16),
+                    TextFormField(
+                      controller: _descriptionController,
+                      decoration: const InputDecoration(
+                        labelText: 'Descrição',
+                      ),
+                      style: const TextStyle(
+                        color: Colors.white,
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Por favor, insira uma descrição';
+                        }
+                        return null;
+                      },
+                      onChanged: (value) {
+                        setState(() {
+                          _newAppointment =
+                              _newAppointment.copyWith(description: value);
+                        });
+                      },
+                    ),
+                    const SizedBox(height: 16),
+                    TextFormField(
+                      controller: _startTimeController,
+                      decoration: const InputDecoration(
+                        labelText: 'Tempo de Início',
+                      ),
+                      style: const TextStyle(
+                        color: Colors.white,
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Por favor, insira um tempo de início';
+                        }
+                        return null;
+                      },
+                      onChanged: (value) {
+                        setState(() {
+                          _newAppointment =
+                              _newAppointment.copyWith(startTime: value);
+                        });
+                      },
+                    ),
+                    const SizedBox(height: 16),
+                    TextFormField(
+                      controller: _endTimeController,
+                      decoration: const InputDecoration(
+                        labelText: 'Prazo',
+                      ),
+                      style: const TextStyle(
+                        color: Colors.white,
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Por favor, insira um prazo';
+                        }
+                        return null;
+                      },
+                      onChanged: (value) {
+                        setState(() {
+                          _newAppointment =
+                              _newAppointment.copyWith(endTime: value);
+                        });
+                      },
+                    ),
+                    const SizedBox(height: 16),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        ElevatedButton(
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              _createAppointment().catchError((error) {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                    title: const Text('Error'),
+                                    content: Text(error.toString()),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () => Navigator.pop(context),
+                                        child: const Text('OK'),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              });
+                            }
+                          },
+                          child: const Text(
+                            'Criar',
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              if (_newAppointment.id == 0) {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                    title: const Text('Error'),
+                                    content: const Text(
+                                        'Por favor, selecione um compromisso para atualizar'),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () => Navigator.pop(context),
+                                        child: const Text('OK'),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              } else {
+                                _updateAppointment(_newAppointment.id)
+                                    .catchError((error) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => AlertDialog(
+                                      title: const Text('Error'),
+                                      content: Text(error.toString()),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () =>
+                                              Navigator.pop(context),
+                                          child: const Text('OK'),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                });
+                              }
+                            }
+                          },
+                          child: const Text(
+                            'Atualizar',
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ),
-            const SizedBox(height: 16),
-          ],
+              const SizedBox(height: 16),
+            ],
+          ),
         ),
       ),
     );
