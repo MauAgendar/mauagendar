@@ -41,6 +41,6 @@
 - Habilite o kubernetes no docker desktop
 - Digite ```kubectl apply -f ./kubernetes``` em um terminal na raíz do projeto
 
-### Link do vídeo
+### Link do vídeo da Parte 1
 
 <https://youtu.be/U6bmKo-6JgA>
