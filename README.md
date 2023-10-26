@@ -23,6 +23,7 @@
 - PostgreSQL
 - Typescript
 - SwaggerUI
+- Flutter
 
 ### Como rodar o projeto
 
